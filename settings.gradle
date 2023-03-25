@@ -1,0 +1,19 @@
+enableFeaturePreview('VERSION_CATALOGS')
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+
+    versionCatalogs {
+        baseLibs {
+            from(files('gradle/baseLibs.versions.toml'))
+        }
+    }
+}
+rootProject.name = "DiplomaAppComponents"
+include ':app'
+//include ':core:ui'
+//include ':core:network'
