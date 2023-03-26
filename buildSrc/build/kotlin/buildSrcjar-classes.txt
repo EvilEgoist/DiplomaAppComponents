@@ -1,0 +1,1 @@
+C:\Android_Studio_Projects\DiplomaAppComponents\buildSrc\build\classes\kotlin\main\Releases.class;C:\Android_Studio_Projects\DiplomaAppComponents\buildSrc\build\classes\kotlin\main\SdkVersions.class
