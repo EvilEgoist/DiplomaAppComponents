@@ -34,3 +34,5 @@ val DarkPuprple90 = Color(0xFFe4e0eb)
 val LightGray95 = Color(0xFFf1f3f3)
 
 val Cyan60 = Color(0xFF65bfcd)
+
+val DarkBlue = Color(0xFF2F273C)

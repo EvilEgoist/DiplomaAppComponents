@@ -23,6 +23,10 @@ val figeronaFontFamily = FontFamily(
     Font(R.font.figerona)
 )
 
+val bakbakFontFamily = FontFamily(
+    Font(R.font.bakbak_regular)
+)
+
 
 val Typography.lightHeader: TextStyle
     @Composable
@@ -62,4 +66,23 @@ val Typography.bigLightHeader: TextStyle
         fontWeight = FontWeight.W400,
         fontSize = 26.sp,
         color = MaterialTheme.colorScheme.background
+    )
+
+val Typography.bigDarkHeader: TextStyle
+    @Composable
+    @ReadOnlyComposable
+    get() = TextStyle(
+        fontFamily = bakbakFontFamily,
+        fontSize = 26.sp,
+        color = MaterialTheme.colorScheme.primary
+    )
+
+val Typography.mediumDarkHeader: TextStyle
+    @Composable
+    @ReadOnlyComposable
+    get() = TextStyle(
+        fontFamily = albertSansFontFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.sp,
+        color = MaterialTheme.colorScheme.primary
     )

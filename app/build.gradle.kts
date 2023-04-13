@@ -63,5 +63,7 @@ dependencies {
     implementation(libs.bundles.compose)
     implementation(libs.bundles.tests)
     implementation(libs.coil)
+    implementation(libs.media3)
+    implementation(libs.media3ui)
     //implementation project(path: ':core:ui')
 }

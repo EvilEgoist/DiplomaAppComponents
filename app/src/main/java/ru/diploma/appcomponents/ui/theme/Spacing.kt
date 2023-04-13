@@ -11,9 +11,11 @@ import androidx.compose.ui.unit.dp
 data class Spacing(
     val extraSmall: Dp = 4.dp,
     val small: Dp = 8.dp,
-    val medium: Dp = 20.dp,
+    val medium: Dp = 16.dp,
     val semi_large: Dp = 24.dp,
     val large: Dp = 32.dp,
+    val x_large: Dp = 48.dp,
+    val xx_large: Dp = 64.dp,
 )
 
 val LocalSpacing = compositionLocalOf { Spacing() }

@@ -45,7 +45,7 @@ object ModelsRepo {
                 "11:00",
                 "April 2",
                 "Museum visit",
-                "https://cdn.dribbble.com/users/70626/screenshots/6370231/800x600.jpg",
+                "https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/a3577213779187.562781c3c496e.jpg",
                 "The State Tretyakov Gallery",
                 "Lavrushinsky Ln, 10, стр. 1",
                 "Один из лучших музеев России"
@@ -59,7 +59,7 @@ object ModelsRepo {
                 "15:00",
                 "May 7",
                 "Park walk",
-                "https://cdn.dribbble.com/users/219385/screenshots/3847514/attachments/877553/park3.jpg",
+                "https://findquiz.ru/location_img/264/main.jpg",
                 "Gorky Park",
                 "Krymsky Val, 9",
                 "Один из крупнейших парков Европы"
@@ -73,7 +73,7 @@ object ModelsRepo {
                 "19:00",
                 "June 20",
                 "Theater performance",
-                "https://cdn.dribbble.com/users/28375/screenshots/3183779/theatre.jpg",
+                "https://i.pinimg.com/736x/b8/f1/c3/b8f1c3ee6febb5a55e939bef87b4de10--bolshoi-ballet-things-to-do.jpg",
                 "Bolshoi Theater",
                 "Theatre Square, 1",
                 "Известнейший театр России"
@@ -87,7 +87,7 @@ object ModelsRepo {
                 "14:00",
                 "August 15",
                 "Aquarium visit",
-                "https://cdn.dribbble.com/users/401561/screenshots/8070714/media/4f15003c08b461fed13a7ce9f4e32d8f.png",
+                "https://storage.theoryandpractice.ru/tnp/uploads/image_logo/000/038/590/image/1a9756208e.png",
                 "Moscow Oceanarium",
                 "Prospekt Mira, 119",
                 "Один из крупнейших океанариумов России"
