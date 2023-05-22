@@ -18,7 +18,7 @@ import javax.inject.Inject
 @OptIn(ExperimentalPagingApi::class)
 class UnsplashRemoteMediator @Inject constructor(
     private val unsplashApi: UnsplashApi,
-    private val unsplashDatabase: UnsplashDatabase
+    private val unsplashDatabase: UnsplashDatabase,
 ) : RemoteMediator<Int, UnsplashImageResponse>() {
 
     private val unsplashImageDao = unsplashDatabase.unsplashImageDao()

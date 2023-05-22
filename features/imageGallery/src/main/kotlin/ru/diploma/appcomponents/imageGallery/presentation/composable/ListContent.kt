@@ -2,6 +2,7 @@ package ru.diploma.appcomponents.imageGallery.presentation.composable
 
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
