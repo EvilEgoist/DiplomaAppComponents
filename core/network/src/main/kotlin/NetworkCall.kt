@@ -58,7 +58,7 @@ internal class NetworkCall<S : Any, E : Any>(
 
             override fun onFailure(call: Call<S>, throwable: Throwable) {
                 val networkResponse = when (throwable) {
-                    is IOException -> NetworkResponse.NetworkError(throwable)
+                    is IOException -> NetworkResponse.NetworkConnectionError(throwable)
                     else -> NetworkResponse.UnknownError(throwable)
                 }
                 callback.onResponse(

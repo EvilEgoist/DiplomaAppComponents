@@ -2,6 +2,8 @@ rootProject.name = "DiplomaAppComponents"
 include(":app")
 include(":core:ui")
 include(":core:network")
+include(":core:base")
+include(":features:imageGallery")
 
 pluginManagement {
     repositories {

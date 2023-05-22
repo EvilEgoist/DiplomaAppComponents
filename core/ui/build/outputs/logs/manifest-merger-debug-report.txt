@@ -1,25 +1,25 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Android_Studio_Projects\DiplomaAppComponents\core\ui\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest17034621596003487519.xml:2:13-83
-INJECTED from C:\Android_Studio_Projects\DiplomaAppComponents\core\ui\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest17034621596003487519.xml:2:13-83
-INJECTED from C:\Android_Studio_Projects\DiplomaAppComponents\core\ui\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest17034621596003487519.xml:2:13-83
+ADDED from C:\Android_Studio_Projects\DiplomaAppComponents\core\ui\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest12785337434510333261.xml:2:13-83
+INJECTED from C:\Android_Studio_Projects\DiplomaAppComponents\core\ui\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest12785337434510333261.xml:2:13-83
+INJECTED from C:\Android_Studio_Projects\DiplomaAppComponents\core\ui\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest12785337434510333261.xml:2:13-83
 	package
-		INJECTED from C:\Android_Studio_Projects\DiplomaAppComponents\core\ui\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest17034621596003487519.xml
-		ADDED from C:\Android_Studio_Projects\DiplomaAppComponents\core\ui\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest17034621596003487519.xml:2:13-83
-		INJECTED from C:\Android_Studio_Projects\DiplomaAppComponents\core\ui\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest17034621596003487519.xml
+		INJECTED from C:\Android_Studio_Projects\DiplomaAppComponents\core\ui\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest12785337434510333261.xml
+		ADDED from C:\Android_Studio_Projects\DiplomaAppComponents\core\ui\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest12785337434510333261.xml:2:13-83
+		INJECTED from C:\Android_Studio_Projects\DiplomaAppComponents\core\ui\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest12785337434510333261.xml
 	xmlns:android
-		ADDED from C:\Android_Studio_Projects\DiplomaAppComponents\core\ui\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest17034621596003487519.xml:2:23-81
+		ADDED from C:\Android_Studio_Projects\DiplomaAppComponents\core\ui\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest12785337434510333261.xml:2:23-81
 uses-sdk
-INJECTED from C:\Android_Studio_Projects\DiplomaAppComponents\core\ui\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest17034621596003487519.xml reason: use-sdk injection requested
-INJECTED from C:\Android_Studio_Projects\DiplomaAppComponents\core\ui\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest17034621596003487519.xml
-INJECTED from C:\Android_Studio_Projects\DiplomaAppComponents\core\ui\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest17034621596003487519.xml
-INJECTED from C:\Android_Studio_Projects\DiplomaAppComponents\core\ui\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest17034621596003487519.xml
-INJECTED from C:\Android_Studio_Projects\DiplomaAppComponents\core\ui\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest17034621596003487519.xml
+INJECTED from C:\Android_Studio_Projects\DiplomaAppComponents\core\ui\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest12785337434510333261.xml reason: use-sdk injection requested
+INJECTED from C:\Android_Studio_Projects\DiplomaAppComponents\core\ui\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest12785337434510333261.xml
+INJECTED from C:\Android_Studio_Projects\DiplomaAppComponents\core\ui\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest12785337434510333261.xml
+INJECTED from C:\Android_Studio_Projects\DiplomaAppComponents\core\ui\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest12785337434510333261.xml
+INJECTED from C:\Android_Studio_Projects\DiplomaAppComponents\core\ui\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest12785337434510333261.xml
 	android:targetSdkVersion
-		INJECTED from C:\Android_Studio_Projects\DiplomaAppComponents\core\ui\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest17034621596003487519.xml
-		ADDED from C:\Android_Studio_Projects\DiplomaAppComponents\core\ui\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest17034621596003487519.xml
-		INJECTED from C:\Android_Studio_Projects\DiplomaAppComponents\core\ui\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest17034621596003487519.xml
+		INJECTED from C:\Android_Studio_Projects\DiplomaAppComponents\core\ui\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest12785337434510333261.xml
+		ADDED from C:\Android_Studio_Projects\DiplomaAppComponents\core\ui\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest12785337434510333261.xml
+		INJECTED from C:\Android_Studio_Projects\DiplomaAppComponents\core\ui\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest12785337434510333261.xml
 	android:minSdkVersion
-		INJECTED from C:\Android_Studio_Projects\DiplomaAppComponents\core\ui\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest17034621596003487519.xml
-		ADDED from C:\Android_Studio_Projects\DiplomaAppComponents\core\ui\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest17034621596003487519.xml
-		INJECTED from C:\Android_Studio_Projects\DiplomaAppComponents\core\ui\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest17034621596003487519.xml
+		INJECTED from C:\Android_Studio_Projects\DiplomaAppComponents\core\ui\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest12785337434510333261.xml
+		ADDED from C:\Android_Studio_Projects\DiplomaAppComponents\core\ui\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest12785337434510333261.xml
+		INJECTED from C:\Android_Studio_Projects\DiplomaAppComponents\core\ui\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest12785337434510333261.xml

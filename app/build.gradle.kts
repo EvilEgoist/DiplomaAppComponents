@@ -24,8 +24,11 @@ android {
     }
 
     buildTypes {
+        debug {
+            isMinifyEnabled = true
+        }
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 // List additional ProGuard rules for the given build type here. By default,
@@ -65,5 +68,7 @@ dependencies {
     implementation(libs.coil)
     implementation(libs.media3)
     implementation(libs.media3ui)
+    implementation(project(":core:base"))
+    implementation(project(":features:imageGallery"))
     //implementation project(path: ':core:ui')
 }
