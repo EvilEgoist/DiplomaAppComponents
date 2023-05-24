@@ -1,6 +1,8 @@
 package ru.diploma.appcomponents.imageGallery.data.models.mapper
 
 import ru.diploma.appcomponents.imageGallery.data.models.*
+import ru.diploma.appcomponents.imageGallery.data.models.localonly.SearchHistoryDbModel
+import ru.diploma.appcomponents.imageGallery.data.models.localonly.UnsplashRemoteKeysDb
 import ru.diploma.appcomponents.imageGallery.domain.model.*
 
 fun AuthorLinksResponse.toDomainModel() = AuthorLinks(
@@ -29,3 +31,9 @@ fun UnsplashRemoteKeysDb.toDomainModel() = UnsplashRemoteKeys(
     prevPage = prevPage,
     nextPage = nextPage
 )
+
+fun SearchHistoryDbModel.toDomainModel() = SearchHistoryModel(
+    id = id,
+    query = query
+)
+

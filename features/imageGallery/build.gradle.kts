@@ -68,6 +68,7 @@ dependencies {
     implementation(libs.navigation.hilt)
     implementation(libs.systemuicontr)
     implementation(libs.bundles.tests)
+    implementation(libs.recyclerview)
     implementation(libs.room.paging)
     implementation(libs.navigation)
     implementation(libs.media3ui)

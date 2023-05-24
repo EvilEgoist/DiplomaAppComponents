@@ -1,4 +1,4 @@
-package ru.diploma.appcomponents.imageGallery.data.models
+package ru.diploma.appcomponents.imageGallery.data.models.localonly
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

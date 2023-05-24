@@ -10,7 +10,7 @@ import ru.diploma.appcomponents.imageGallery.data.models.SomeError
 import ru.diploma.appcomponents.imageGallery.data.local.UnsplashDatabase
 import ru.diploma.appcomponents.imageGallery.data.remote.UnsplashApi
 import ru.diploma.appcomponents.imageGallery.data.models.UnsplashImageResponse
-import ru.diploma.appcomponents.imageGallery.data.models.UnsplashRemoteKeysDb
+import ru.diploma.appcomponents.imageGallery.data.models.localonly.UnsplashRemoteKeysDb
 import ru.diploma.appcomponents.imageGallery.util.Constants.CURR_ORDER_BY
 import ru.diploma.appcomponents.imageGallery.util.Constants.ITEMS_PER_PAGE
 import javax.inject.Inject

@@ -29,7 +29,6 @@ fun ImageGalleryRoute(
 ) {
 
     val imageItems = viewModel.getImages.collectAsLazyPagingItems()
-
     Surface(
         Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background

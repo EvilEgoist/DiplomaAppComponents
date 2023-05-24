@@ -43,7 +43,7 @@ fun SearchWidget(
                         if (text.isNotEmpty()) {
                             onClearText()
                         } else {
-                            onActiveChange(active)
+                            onCloseClicked()
                         }
                     },
                     imageVector = Icons.Default.Close,

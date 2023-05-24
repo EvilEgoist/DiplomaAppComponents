@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import ru.diploma.appcomponents.imageGallery.data.models.UnsplashRemoteKeysDb
+import ru.diploma.appcomponents.imageGallery.data.models.localonly.UnsplashRemoteKeysDb
 
 @Dao
 interface UnsplashRemoteKeysDao {

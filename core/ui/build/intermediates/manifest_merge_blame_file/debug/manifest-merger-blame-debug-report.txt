@@ -3,6 +3,6 @@
 3    package="ru.diploma.appcomponents" >
 4
 5    <uses-sdk android:minSdkVersion="1" />
-5-->C:\Android_Studio_Projects\DiplomaAppComponents\core\ui\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest14846920633513257468.xml
+5-->C:\Android_Studio_Projects\DiplomaAppComponents\core\ui\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest6480850863446213197.xml
 6
 7</manifest>
