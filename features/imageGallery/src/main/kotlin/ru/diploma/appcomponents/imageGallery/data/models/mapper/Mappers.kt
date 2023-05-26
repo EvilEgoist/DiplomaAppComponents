@@ -23,7 +23,7 @@ fun UnsplashImageResponse.toDomainModel() = UnsplashImage(
     color = color,
     urls = urls.toDomainModel(),
     likes = likes,
-    author = author.toDomainModel()
+    author = author.toDomainModel(),
 )
 
 fun UnsplashRemoteKeysDb.toDomainModel() = UnsplashRemoteKeys(

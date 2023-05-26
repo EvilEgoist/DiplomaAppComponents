@@ -11,7 +11,20 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListUpdateCallback
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import ru.diploma.appcomponents.imageGallery.domain.model.SearchHistoryModel
 
+fun SearchHistoryModel.toAnimatedItem(): AnimatedItem<SearchHistoryModel>{
+    return AnimatedItem(
+        visibility = MutableTransitionState(true),
+        item = this
+    )
+}
+
+fun List<AnimatedItem<SearchHistoryModel>>.animateAppearing(){
+    this.forEach{
+        it.visibility.targetState = true
+    }
+}
 @Suppress("UpdateTransitionLabel", "TransitionPropertiesLabel")
 @SuppressLint("ComposableNaming", "UnusedTransitionTargetStateParameter")
 /**
@@ -45,64 +58,64 @@ inline fun <T> LazyListScope.animatedItemsIndexed(
     }
 }
 
-@Composable
-fun <T> updateAnimatedItemsState(
-    newList: List<T>
-): State<List<AnimatedItem<T>>> {
-
-    val state = remember { mutableStateOf(emptyList<AnimatedItem<T>>()) }
-    LaunchedEffect(newList) {
-        if (state.value == newList) {
-            return@LaunchedEffect
-        }
-        val oldList = state.value.toList()
-
-        val diffCb = object : DiffUtil.Callback() {
-            override fun getOldListSize(): Int = oldList.size
-            override fun getNewListSize(): Int = newList.size
-            override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
-                oldList[oldItemPosition].item == newList[newItemPosition]
-
-            override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
-                oldList[oldItemPosition].item == newList[newItemPosition]
-
-        }
-        val diffResult = calculateDiff(false, diffCb)
-        val compositeList = oldList.toMutableList()
-
-        diffResult.dispatchUpdatesTo(object : ListUpdateCallback {
-            override fun onInserted(position: Int, count: Int) {
-                for (i in 0 until count) {
-                    val newItem = AnimatedItem(visibility = MutableTransitionState(false), newList[position + i])
-                    newItem.visibility.targetState = true
-                    compositeList.add(position + i, newItem)
-                }
-            }
-
-            override fun onRemoved(position: Int, count: Int) {
-                for (i in 0 until count) {
-                    compositeList[position + i].visibility.targetState = false
-                }
-            }
-
-            override fun onMoved(fromPosition: Int, toPosition: Int) {
-                // not detecting moves.
-            }
-
-            override fun onChanged(position: Int, count: Int, payload: Any?) {
-                // irrelevant with compose.
-            }
-        })
-        if (state.value != compositeList) {
-            state.value = compositeList
-        }
-        val initialAnimation = androidx.compose.animation.core.Animatable(1.0f)
-        initialAnimation.animateTo(0f)
-        state.value = state.value.filter { it.visibility.targetState }
-    }
-
-    return state
-}
+//@Composable
+//fun <T> updateAnimatedItemsState(
+//    newList: List<T>
+//): State<List<AnimatedItem<T>>> {
+//
+//    val state = remember { mutableStateOf(emptyList<AnimatedItem<T>>()) }
+//    LaunchedEffect(newList) {
+//        if (state.value == newList) {
+//            return@LaunchedEffect
+//        }
+//        val oldList = state.value.toList()
+//
+//        val diffCb = object : DiffUtil.Callback() {
+//            override fun getOldListSize(): Int = oldList.size
+//            override fun getNewListSize(): Int = newList.size
+//            override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+//                oldList[oldItemPosition].item == newList[newItemPosition]
+//
+//            override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+//                oldList[oldItemPosition].item == newList[newItemPosition]
+//
+//        }
+//        val diffResult = calculateDiff(false, diffCb)
+//        val compositeList = oldList.toMutableList()
+//
+//        diffResult.dispatchUpdatesTo(object : ListUpdateCallback {
+//            override fun onInserted(position: Int, count: Int) {
+//                for (i in 0 until count) {
+//                    val newItem = AnimatedItem(visibility = MutableTransitionState(false), newList[position-1 + i])
+//                    newItem.visibility.targetState = true
+//                    compositeList.add(position + i, newItem)
+//                }
+//            }
+//
+//            override fun onRemoved(position: Int, count: Int) {
+//                for (i in 0 until count) {
+//                    compositeList[position + i].visibility.targetState = false
+//                }
+//            }
+//
+//            override fun onMoved(fromPosition: Int, toPosition: Int) {
+//                // not detecting moves.
+//            }
+//
+//            override fun onChanged(position: Int, count: Int, payload: Any?) {
+//                // irrelevant with compose.
+//            }
+//        })
+//        if (state.value != compositeList) {
+//            state.value = compositeList
+//        }
+//        val initialAnimation = androidx.compose.animation.core.Animatable(1.0f)
+//        initialAnimation.animateTo(0f)
+//        state.value = state.value.filter { it.visibility.targetState }
+//    }
+//
+//    return state
+//}
 
 data class AnimatedItem<T>(
     val visibility: MutableTransitionState<Boolean>,

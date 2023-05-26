@@ -8,6 +8,7 @@ import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ru.diploma.appcomponents.imageGallery.domain.model.SearchHistoryModel
 import ru.diploma.appcomponents.imageGallery.domain.model.UnsplashImage
@@ -16,22 +17,23 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchScreenViewModel @Inject constructor(
-    private val searchImagesUseCase: SearchImagesUseCase,
-    s
+    private val searchImagesUseCase: SearchImagesUseCase
 ) : ViewModel() {
 
-    private val _searchQuery = mutableStateOf("")
+    private val _searchQuery = MutableStateFlow("")
     val searchQuery = _searchQuery
 
     private val _searchedImages = MutableStateFlow<PagingData<UnsplashImage>>(PagingData.empty())
     val searchedImages = _searchedImages
 
-    private val _searchSuggestions = MutableStateFlow<List<SearchHistoryModel>>(emptyList())
+    private val _searchSuggestions = searchImagesUseCase.getSuggestionsFlow()
     val searchSuggestions = _searchSuggestions
 
     init{
         viewModelScope.launch {
-            getInitialSuggestions()
+            _searchQuery.collect{
+                searchImagesUseCase.getSearchSuggestions(it)
+            }
         }
     }
     fun updateSearchQuery(query: String) {
@@ -50,19 +52,16 @@ class SearchScreenViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getInitialSuggestions(){
-        _searchSuggestions.value = searchImagesUseCase.getLastSearchSuggestions()
-    }
-
     fun getSearchSuggestions(){
         viewModelScope.launch(Dispatchers.IO) {
-            _searchSuggestions.value = searchImagesUseCase.getSearchSuggestions(searchQuery.value)
+            searchImagesUseCase.getSearchSuggestions(query = _searchQuery.value)
         }
     }
 
     fun deleteSuggestion(id: Int){
         viewModelScope.launch(Dispatchers.IO) {
             searchImagesUseCase.deleteSearchSuggestion(id)
+            searchImagesUseCase.getSearchSuggestions(_searchQuery.value)
         }
     }
 

@@ -39,7 +39,11 @@ fun ImageGalleryRoute(
                     override val destination: String = NavigationDestination.SearchImages.route
                 })
             }
-            ListContent(items = imageItems)
+            ListContent(items = imageItems) {
+                navigationManager.navigate(object : NavigationCommand {
+                    override val destination: String = NavigationDestination.ImageDetails.route+"/$it"
+                })
+            }
         }
     }
 }

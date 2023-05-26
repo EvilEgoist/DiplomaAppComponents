@@ -30,6 +30,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.LayoutDirection
+import androidx.navigation.NavType
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
@@ -86,7 +87,7 @@ fun SwipeActions(
         val infiniteTransition = rememberInfiniteTransition()
         val x by infiniteTransition.animateFloat(
             initialValue = 0f,
-            targetValue = width * (startActionsConfig.threshold) / 2f,
+            targetValue = -width * (startActionsConfig.threshold) / 2f,
             animationSpec = infiniteRepeatable(
                 animation = tween(500, easing = FastOutSlowInEasing, delayMillis = 1000),
                 repeatMode = RepeatMode.Reverse

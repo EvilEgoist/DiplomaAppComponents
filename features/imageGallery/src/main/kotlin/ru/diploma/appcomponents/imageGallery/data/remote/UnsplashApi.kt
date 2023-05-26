@@ -24,7 +24,14 @@ interface UnsplashApi {
     @GET("/search/photos")
     suspend fun searchImages(
         @Query("query")query: String,
+        @Query("page")page: Int,
         @Query("per_page")perPage: Int,
         @Query("order_by")orderBy: String
     ): NetworkResponse<SearchResponse, SomeError>
+
+    @Headers("Authorization: Client-ID ${BuildConfig.API_KEY}")
+    @GET("/photos/")
+    suspend fun getImage(
+        @Query("id")id: String,
+    ): NetworkResponse<UnsplashImageResponse, SomeError>
 }

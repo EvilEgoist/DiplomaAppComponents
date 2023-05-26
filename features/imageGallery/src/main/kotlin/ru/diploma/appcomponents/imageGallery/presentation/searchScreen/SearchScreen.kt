@@ -1,18 +1,26 @@
 package ru.diploma.appcomponents.imageGallery.presentation.searchScreen
 
 import android.util.Log
+import androidx.compose.animation.AnimatedVisibility
+
+
+import androidx.compose.animation.core.MutableTransitionState
+
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkHorizontally
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -31,11 +39,7 @@ import ru.diploma.appcomponents.core.navigation.NavigationDestination
 import ru.diploma.appcomponents.core.navigation.NavigationManager
 import ru.diploma.appcomponents.imageGallery.domain.model.SearchHistoryModel
 import ru.diploma.appcomponents.imageGallery.presentation.composable.ListContent
-import ru.diploma.appcomponents.imageGallery.presentation.searchScreen.swipe.SwipeActions
-import ru.diploma.appcomponents.imageGallery.presentation.searchScreen.swipe.SwipeActionsConfig
-import ru.diploma.appcomponents.imageGallery.presentation.searchScreen.swipe.animatedItemsIndexed
-import ru.diploma.appcomponents.imageGallery.presentation.searchScreen.swipe.updateAnimatedItemsState
-import timber.log.Timber
+import ru.diploma.appcomponents.imageGallery.presentation.searchScreen.swipe.*
 import kotlin.math.absoluteValue
 
 @OptIn(ExperimentalCoilApi::class)
@@ -44,11 +48,11 @@ fun SearchRoute(
     viewModel: SearchScreenViewModel = hiltViewModel(),
     navigationManager: NavigationManager
 ) {
-    val searchQuery by viewModel.searchQuery
+    val searchSuggestions by viewModel.searchSuggestions.collectAsStateWithLifecycle()
+    val searchQuery by viewModel.searchQuery.collectAsStateWithLifecycle()
     val searchedImages = viewModel.searchedImages.collectAsLazyPagingItems()
     var active by rememberSaveable { mutableStateOf(false) }
     var focusRequester = remember { FocusRequester() }
-    val searchSuggestions by viewModel.searchSuggestions.collectAsStateWithLifecycle()
 
     LaunchedEffect(key1 = Unit, block = {
         focusRequester.requestFocus()
@@ -57,107 +61,128 @@ fun SearchRoute(
         Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        Column(Modifier.fillMaxSize()) {
-            SearchWidget(
-                modifier = Modifier.focusRequester(focusRequester),
-                text = searchQuery,
-                onTextChange = {
-                    viewModel.updateSearchQuery(query = it)
-                    viewModel.getSearchSuggestions()
-                },
-                onSearchClicked = {
-                    active = false
-                    viewModel.searchImages(query = it)
-                },
-                onCloseClicked = {
-                    navigationManager.navigate(object : NavigationCommand {
-                        override val destination: String = NavigationDestination.ImageGallery.route
-                    })
-                },
-                active = active,
-                onActiveChange = { active = it },
-                onClearText = {
-                    viewModel.updateSearchQuery("")
+        AnimatedVisibility(
+            visible = true,
+            enter = expandVertically(clip = false),
+            exit = shrinkHorizontally()
+        ) {
+            Column(Modifier.fillMaxSize()) {
+                SearchWidget(
+                    modifier = Modifier.focusRequester(focusRequester),
+                    text = searchQuery,
+                    onTextChange = {
+                        viewModel.updateSearchQuery(query = it)
+                    },
+                    onSearchClicked = {
+                        active = false
+                        viewModel.searchImages(query = it)
+                    },
+                    onCloseClicked = {
+                        navigationManager.navigate(object : NavigationCommand {
+                            override val destination: String =
+                                NavigationDestination.ImageGallery.route
+                        })
+                    },
+                    active = active,
+                    onActiveChange = { active = it },
+                    onClearText = {
+                        viewModel.updateSearchQuery("")
+                    }
+                ) {
+                    SearchHints(searchSuggestions, viewModel) {
+                        active = false
+                    }
                 }
-            ) {
-                SearchHints(searchSuggestions, viewModel) {
-                    active = false
-                }
+                ListContent(items = searchedImages, {})
             }
-            ListContent(items = searchedImages)
         }
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
 @Composable
-fun SearchHints(searchSuggestions: List<SearchHistoryModel>, viewModel: SearchScreenViewModel, onHintClicked: () -> Unit) {
-
-    val animatedList by updateAnimatedItemsState(newList = searchSuggestions)
-
-    Log.d("MY_TAG", "SearchHints: searchSugg size: ${searchSuggestions.size} and animated list size ${animatedList.size}")
+fun SearchHints(
+    searchSuggestions: List<SearchHistoryModel>,
+    viewModel: SearchScreenViewModel,
+    onSuggestionClicked: () -> Unit
+) {
     LazyColumn(
         modifier = Modifier
             .background(color = MaterialTheme.colorScheme.surface)
     ) {
-        animatedItemsIndexed(
-            state = animatedList,
-            key = {
-                it.id
-            }
+        itemsIndexed(
+            items = searchSuggestions,
+            key = { index: Int, _ -> searchSuggestions[index].id }
         ) { index, item ->
-            Log.d("MY_TAG", "SearchHints: index: $index")
-            SwipeActions(
-                endActionsConfig = SwipeActionsConfig(
-                    threshold = 0.4f,
-                    background = Color(0xffFF4444),
-                    iconTint = Color.Black,
-                    icon = Icons.Default.Delete,
-                    stayDismissed = true,
-                    onDismiss = {
-                        viewModel.deleteSuggestion(item.id)
-                    }
-                ),
-                showTutorial = index == 0
-            ) { state ->
-                val animateCorners by remember {
-                    derivedStateOf {
-                        state.offset.value.absoluteValue > 30
-                    }
-                }
-                val startCorners by animateDpAsState(
-                    targetValue = when {
-                        state.dismissDirection == DismissDirection.StartToEnd &&
-                                animateCorners -> 8.dp
-                        else -> 0.dp
-                    }
-                )
-                val endCorners by animateDpAsState(
-                    targetValue = when {
-                        state.dismissDirection == DismissDirection.EndToStart &&
-                                animateCorners -> 8.dp
-                        else -> 0.dp
-                    }
-                )
-                val elevation by animateDpAsState(
-                    targetValue = when {
-                        animateCorners -> 6.dp
-                        else -> 2.dp
-                    }
-                )
-                Card(
-                    shape = RoundedCornerShape(
-                        topStart = startCorners,
-                        bottomStart = startCorners,
-                        topEnd = endCorners,
-                        bottomEnd = endCorners,
+            val visibility by remember {
+                mutableStateOf(MutableTransitionState(false))
+            }
+
+            LaunchedEffect(key1 = Unit, block = {
+                visibility.targetState = true
+            })
+
+            AnimatedVisibility(
+                visibleState = visibility,
+                enter = expandVertically(clip = false),
+                exit = shrinkHorizontally()
+            ) {
+                SwipeActions(
+                    endActionsConfig = SwipeActionsConfig(
+                        threshold = 0.4f,
+                        background = Color(0xffFF4444),
+                        iconTint = androidx.compose.material3.MaterialTheme.colorScheme.primary,
+                        icon = Icons.Default.Delete,
+                        stayDismissed = true,
+                        onDismiss = {
+                            visibility.targetState = false
+                            viewModel.deleteSuggestion(item.id)
+                        }
                     ),
-                    elevation = elevation,
-                ) {
-                    SearchSuggestionItem(text = item.query, modifier = Modifier.clickable {
-                        onHintClicked()
-                        viewModel.searchImages(item.query)
-                    })
+                    showTutorial = index == 0
+                ) { state ->
+                    val animateCorners by remember {
+                        derivedStateOf {
+                            state.offset.value.absoluteValue > 30
+                        }
+                    }
+                    val startCorners by animateDpAsState(
+                        targetValue = when {
+                            state.dismissDirection == DismissDirection.StartToEnd &&
+                                    animateCorners -> 8.dp
+                            else -> 0.dp
+                        }
+                    )
+                    val endCorners by animateDpAsState(
+                        targetValue = when {
+                            state.dismissDirection == DismissDirection.EndToStart &&
+                                    animateCorners -> 8.dp
+                            else -> 0.dp
+                        }
+                    )
+                    val elevation by animateDpAsState(
+                        targetValue = when {
+                            animateCorners -> 6.dp
+                            else -> 2.dp
+                        }
+                    )
+                    Card(
+                        modifier = Modifier.animateItemPlacement(
+                            tween(200)
+                        ),
+                        shape = RoundedCornerShape(
+                            topStart = startCorners,
+                            bottomStart = startCorners,
+                            topEnd = endCorners,
+                            bottomEnd = endCorners,
+                        ),
+                        elevation = elevation,
+                    ) {
+                        SearchSuggestionItem(text = item.query, modifier = Modifier.clickable {
+                            onSuggestionClicked()
+                            viewModel.searchImages(item.query)
+                        })
+                    }
                 }
             }
         }

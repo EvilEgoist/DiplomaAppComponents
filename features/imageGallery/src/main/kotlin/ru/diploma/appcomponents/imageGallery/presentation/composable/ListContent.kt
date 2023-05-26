@@ -1,20 +1,15 @@
 package ru.diploma.appcomponents.imageGallery.presentation.composable
 
-import android.content.Intent
-import android.net.Uri
-import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.Text
-import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -34,10 +29,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.ContextCompat.startActivity
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemContentType
-import androidx.paging.compose.itemKey
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -48,7 +41,7 @@ import ru.diploma.appcomponents.imageGallery.domain.model.UnsplashImage
 @OptIn(ExperimentalFoundationApi::class)
 @ExperimentalCoilApi
 @Composable
-fun ListContent(items: LazyPagingItems<UnsplashImage>) {
+fun ListContent(items: LazyPagingItems<UnsplashImage>, onClickAction: (String) -> Unit) {
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Fixed(2),
         modifier = Modifier
@@ -60,31 +53,31 @@ fun ListContent(items: LazyPagingItems<UnsplashImage>) {
     ) {
         items(
             count = items.itemCount,
-            key = items.itemKey(key = { unsplashImage ->
-                unsplashImage.id
-            }
-            ),
+//            key = items.itemKey(key = { unsplashImage ->
+//                unsplashImage.id
+//            }),
             contentType = items.itemContentType(
             )
         ) { index ->
             val item = items[index]
-            item?.let { UnsplashItem(unsplashImage = it) }
+            item?.let { UnsplashItem(unsplashImage = it, onClickAction = onClickAction) }
         }
     }
 }
 
 @ExperimentalCoilApi
 @Composable
-fun UnsplashItem(unsplashImage: UnsplashImage) {
+fun UnsplashItem(unsplashImage: UnsplashImage, onClickAction: (String) -> Unit) {
     val context = LocalContext.current
     Box(
         modifier = Modifier
             .clickable {
-                val browserIntent = Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://unsplash.com/@${unsplashImage.author.authorName}?utm_source=DemoApp&utm_medium=referral")
-                )
-                startActivity(context, browserIntent, null)
+//                val browserIntent = Intent(
+//                    Intent.ACTION_VIEW,
+//                    Uri.parse("https://unsplash.com/@${unsplashImage.author.authorName}?utm_source=DemoApp&utm_medium=referral")
+//                )
+//                startActivity(context, browserIntent, null)
+                onClickAction(unsplashImage.id)
             }
             .clip(RoundedCornerShape(MaterialTheme.dimensions.LOGO_CORNER_SHAPE))
             .fillMaxWidth(),

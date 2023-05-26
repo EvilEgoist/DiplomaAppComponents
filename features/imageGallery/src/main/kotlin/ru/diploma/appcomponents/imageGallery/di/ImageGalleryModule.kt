@@ -6,7 +6,9 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ru.diploma.appcomponents.imageGallery.data.repository.ImagesRepositoryImpl
+import ru.diploma.appcomponents.imageGallery.data.repository.SearchSuggestionsRepositoryImpl
 import ru.diploma.appcomponents.imageGallery.domain.repository.ImagesRepository
+import ru.diploma.appcomponents.imageGallery.domain.repository.SearchSuggestionsRepository
 import ru.diploma.appcomponents.imageGallery.domain.usecase.GetImagesUseCase
 import ru.diploma.appcomponents.imageGallery.domain.usecase.getImages
 import javax.inject.Singleton
@@ -18,18 +20,22 @@ object ImageGalleryModule {
     @Provides
     fun provideGetImagesUseCase(
         imagesRepository: ImagesRepository
-    ): GetImagesUseCase{
-        return GetImagesUseCase{
+    ): GetImagesUseCase {
+        return GetImagesUseCase {
             getImages(imagesRepository)
         }
     }
 
     @Module
     @InstallIn(SingletonComponent::class)
-    interface BindsRepoModule{
+    interface BindsRepoModule {
 
         @Binds
         @Singleton
         fun bindImagesRepository(impl: ImagesRepositoryImpl): ImagesRepository
+
+        @Binds
+        @Singleton
+        fun bindSearchSuggestionsRepository(impl: SearchSuggestionsRepositoryImpl): SearchSuggestionsRepository
     }
 }
