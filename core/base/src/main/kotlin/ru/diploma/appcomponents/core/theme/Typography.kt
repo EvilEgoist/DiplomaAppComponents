@@ -126,3 +126,12 @@ val Typography.regularTextWithoutColor: TextStyle
         fontWeight = FontWeight.Normal,
         fontSize = 18.sp
     )
+
+val Typography.headerWithoutColor: TextStyle
+    @Composable
+    @ReadOnlyComposable
+    get() = TextStyle(
+        fontFamily = albertSansFontFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 22.sp
+    )

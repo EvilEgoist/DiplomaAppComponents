@@ -1,10 +1,16 @@
 package ru.diploma.appcomponents.core.theme
 
+import android.app.Activity
+import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.lightColorScheme
-import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
+import androidx.core.view.WindowCompat
 
 
 private val LightColors = lightColorScheme(
@@ -70,17 +76,43 @@ private val DarkColors = darkColorScheme(
 
 @Composable
 fun AppTheme(
-  useDarkTheme: Boolean = isSystemInDarkTheme(),
-  content: @Composable() () -> Unit
+    isDarkTheme: Boolean = isSystemInDarkTheme(),
+    isDynamicColor: Boolean = true,
+    content: @Composable () -> Unit
 ) {
-  val colors = if (!useDarkTheme) {
-    LightColors
-  } else {
-    DarkColors
-  }
-
-  MaterialTheme(
-    colorScheme = colors,
-    content = content
-  )
+//  val colors = if (!useDarkTheme) {
+//    LightColors
+//  } else {
+//    DarkColors
+//  }
+//
+//  MaterialTheme(
+//    colorScheme = colors,
+//    content = content
+//  )
+    val colorScheme = when {
+        isDynamicColor -> {
+            val context = LocalContext.current
+            if (isDynamicColor && isDarkTheme) dynamicDarkColorScheme(context)
+            else dynamicLightColorScheme(context)
+        }
+        isDarkTheme -> LightColors
+        else -> DarkColors
+    }
+    val view = LocalView.current
+    if (!view.isInEditMode) {
+        SideEffect {
+            val window = (view.context as Activity).window
+            val insets = WindowCompat.getInsetsController(window, view)
+            window.statusBarColor = colorScheme.background.toArgb() // choose a status bar color
+            window.navigationBarColor = colorScheme.background.toArgb() // choose a navigation bar color
+            insets.isAppearanceLightStatusBars = !isDarkTheme
+            insets.isAppearanceLightNavigationBars = !isDarkTheme
+        }
+    }
+    MaterialTheme(
+        colorScheme = colorScheme,
+        typography = Typography,
+        content = content,
+    )
 }

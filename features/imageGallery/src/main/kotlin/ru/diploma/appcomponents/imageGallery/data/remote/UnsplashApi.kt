@@ -4,6 +4,7 @@ import NetworkResponse
 import ru.diploma.appcomponents.imageGallery.data.models.SomeError
 import retrofit2.http.GET
 import retrofit2.http.Headers
+import retrofit2.http.Path
 import retrofit2.http.Query
 import ru.diploma.appcomponents.features.imageGallery.BuildConfig
 import ru.diploma.appcomponents.imageGallery.data.models.SearchResponse
@@ -30,8 +31,8 @@ interface UnsplashApi {
     ): NetworkResponse<SearchResponse, SomeError>
 
     @Headers("Authorization: Client-ID ${BuildConfig.API_KEY}")
-    @GET("/photos/")
+    @GET("/photos/{id}")
     suspend fun getImage(
-        @Query("id")id: String,
+        @Path("id")id: String,
     ): NetworkResponse<UnsplashImageResponse, SomeError>
 }

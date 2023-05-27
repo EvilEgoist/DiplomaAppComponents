@@ -13,8 +13,8 @@ data class UnsplashImageResponse(
     val id: String,
     @SerialName("color")
     val color: String,
-//    @SerialName("description")
-//    val description: String,
+    @SerialName("description")
+    val description: String?,
     @Embedded
     val urls: UrlsResponse,
     val likes: Int,

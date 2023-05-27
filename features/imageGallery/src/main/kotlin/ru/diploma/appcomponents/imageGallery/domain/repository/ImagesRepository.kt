@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import ru.diploma.appcomponents.imageGallery.domain.model.SearchHistoryModel
 import ru.diploma.appcomponents.imageGallery.domain.model.UnsplashImage
+import ru.diploma.appcomponents.imageGallery.util.SortOrder
 
 interface ImagesRepository {
 
@@ -13,4 +14,8 @@ interface ImagesRepository {
     suspend fun searchImages(query: String): Flow<PagingData<UnsplashImage>>
 
     suspend fun getImageDetails(id: String): UnsplashImage
+
+    fun getSortOrderFlow(): MutableStateFlow<SortOrder>
+
+    suspend fun deleteAllImages()
 }

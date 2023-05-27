@@ -8,6 +8,7 @@ import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
 import ru.diploma.appcomponents.core.navigation.NavigationFactory
+import ru.diploma.appcomponents.imageGallery.presentation.detailscreen.DetailsScreenNavigationFactory
 import ru.diploma.appcomponents.imageGallery.presentation.mainScreen.ImageGalleryNavigationFactory
 import ru.diploma.appcomponents.imageGallery.presentation.mainScreen.ImageGalleryUiState
 import ru.diploma.appcomponents.imageGallery.presentation.searchScreen.SearchScreenNavigationFactory
@@ -35,4 +36,8 @@ interface ImageGallerySingletonModule {
     @IntoSet
     fun bindSearchScreenNavigationFactory(factory: SearchScreenNavigationFactory): NavigationFactory
 
+    @Singleton
+    @Binds
+    @IntoSet
+    fun bindImageDetailsNavigationFactory(factory: DetailsScreenNavigationFactory): NavigationFactory
 }

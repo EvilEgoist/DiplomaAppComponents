@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.DrawerValue
 import androidx.compose.material.rememberDrawerState
@@ -12,10 +13,13 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import ru.diploma.appcomponents.core.expandablecard.CardScreen
 import ru.diploma.appcomponents.core.expandablecard.CardsScreenViewModel
@@ -42,15 +46,17 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
         setContent {
             AppTheme {
                 Surface(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .systemBarsPadding(),
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
-
-                    //TransparentSystemBars()
 //                var drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
 //                val scope = rememberCoroutineScope()
 //                ModalDrawer(
@@ -70,6 +76,7 @@ class MainActivity : ComponentActivity() {
                         Modifier
                             .fillMaxSize()
                     ) {
+                        //TransparentSystemBars()
                         //CardScreen(viewModel = cardsViewModel)
                         NavigationHost(
                             navController = navController,
@@ -81,8 +88,8 @@ class MainActivity : ComponentActivity() {
 
                     navigationManager
                         .navigationEvent
-                        .collectWithLifecycle(key = navController){
-                            when (it.destination){
+                        .collectWithLifecycle(key = navController) {
+                            when (it.destination) {
                                 NavigationDestination.Back.route -> navController.navigateUp()
                                 else -> navController.navigate(it.destination, it.configuration)
                             }
@@ -91,6 +98,22 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+}
+
+@Composable
+fun TransparentSystemBars() {
+    val systemUiController = rememberSystemUiController()
+    val useDarkIcons = !isSystemInDarkTheme()
+
+    DisposableEffect(systemUiController, useDarkIcons) {
+        systemUiController.setSystemBarsColor(
+            color = Color.Transparent,
+            darkIcons = useDarkIcons
+        )
+
+        onDispose {}
+    }
+
 }
 
 @Preview(

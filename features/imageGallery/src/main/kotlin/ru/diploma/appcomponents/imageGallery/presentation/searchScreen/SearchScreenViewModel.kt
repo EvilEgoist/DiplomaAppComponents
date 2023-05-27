@@ -8,6 +8,7 @@ import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ru.diploma.appcomponents.imageGallery.domain.model.SearchHistoryModel
@@ -21,13 +22,13 @@ class SearchScreenViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _searchQuery = MutableStateFlow("")
-    val searchQuery = _searchQuery
+    val searchQuery = _searchQuery.asStateFlow()
 
     private val _searchedImages = MutableStateFlow<PagingData<UnsplashImage>>(PagingData.empty())
-    val searchedImages = _searchedImages
+    val searchedImages = _searchedImages.asStateFlow()
 
     private val _searchSuggestions = searchImagesUseCase.getSuggestionsFlow()
-    val searchSuggestions = _searchSuggestions
+    val searchSuggestions = _searchSuggestions.asStateFlow()
 
     init{
         viewModelScope.launch {
@@ -48,7 +49,7 @@ class SearchScreenViewModel @Inject constructor(
             }
         }
         if (_searchQuery.value != query){
-            searchQuery.value = query
+            _searchQuery.value = query
         }
     }
 

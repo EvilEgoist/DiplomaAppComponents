@@ -1,6 +1,7 @@
 package ru.diploma.appcomponents.imageGallery.data.paging
 
 import NetworkResponse
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -11,6 +12,7 @@ import ru.diploma.appcomponents.imageGallery.data.local.UnsplashDatabase
 import ru.diploma.appcomponents.imageGallery.data.remote.UnsplashApi
 import ru.diploma.appcomponents.imageGallery.data.models.UnsplashImageResponse
 import ru.diploma.appcomponents.imageGallery.data.models.localonly.UnsplashRemoteKeysDb
+import ru.diploma.appcomponents.imageGallery.util.Constants
 import ru.diploma.appcomponents.imageGallery.util.Constants.CURR_ORDER_BY
 import ru.diploma.appcomponents.imageGallery.util.Constants.ITEMS_PER_PAGE
 import javax.inject.Inject
@@ -19,6 +21,7 @@ import javax.inject.Inject
 class UnsplashRemoteMediator @Inject constructor(
     private val unsplashApi: UnsplashApi,
     private val unsplashDatabase: UnsplashDatabase,
+    private val sortOrder: String
 ) : RemoteMediator<Int, UnsplashImageResponse>() {
 
     private val unsplashImageDao = unsplashDatabase.unsplashImageDao()
@@ -28,6 +31,7 @@ class UnsplashRemoteMediator @Inject constructor(
         loadType: LoadType,
         state: PagingState<Int, UnsplashImageResponse>
     ): MediatorResult {
+        Log.d("MY_TAG", "load: sortOrderType ${sortOrder}")
         try {
             val remoteKeys = mapRemoteKeys(loadType, state)
 
@@ -50,11 +54,7 @@ class UnsplashRemoteMediator @Inject constructor(
             }
 
             //TODO сделать класс для хранения варианта сортировки, возможно синглтон?
-            val response = unsplashApi.getImages(
-                page = currentPage,
-                perPage = ITEMS_PER_PAGE,
-                orderBy = CURR_ORDER_BY
-            )
+            val response = unsplashApi.getImages(currentPage, Constants.ITEMS_PER_PAGE, sortOrder)
             return handleResponse(response, currentPage, loadType)
         } catch (e: Exception) {
             return MediatorResult.Error(e)

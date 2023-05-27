@@ -24,6 +24,7 @@ fun UnsplashImageResponse.toDomainModel() = UnsplashImage(
     urls = urls.toDomainModel(),
     likes = likes,
     author = author.toDomainModel(),
+    description = description
 )
 
 fun UnsplashRemoteKeysDb.toDomainModel() = UnsplashRemoteKeys(

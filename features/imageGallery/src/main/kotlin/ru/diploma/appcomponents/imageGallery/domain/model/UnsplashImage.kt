@@ -6,6 +6,7 @@ data class UnsplashImage(
     val urls: Urls,
     val likes: Int,
     val author: Author,
+    val description: String?
 )
 
 data class Urls(

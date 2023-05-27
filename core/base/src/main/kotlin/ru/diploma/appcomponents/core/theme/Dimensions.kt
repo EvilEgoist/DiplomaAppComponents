@@ -28,6 +28,9 @@ data class Dimensions(
 
     val SEARCH_BAR_HEIGHT: Dp = 56.dp,
     val SEARCH_BAR_CORNER_PERCENT: Int = 50,
+
+    //Details Screen
+    val PROGRESS_INDICATOR_SIZE: Dp = 40.dp
 )
 
 val LocalDimensions = compositionLocalOf { Dimensions() }

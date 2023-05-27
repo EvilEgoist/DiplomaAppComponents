@@ -35,6 +35,7 @@ import coil.annotation.ExperimentalCoilApi
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import ru.diploma.appcomponents.core.theme.dimensions
+import ru.diploma.appcomponents.core.theme.spacing
 import ru.diploma.appcomponents.features.imageGallery.R
 import ru.diploma.appcomponents.imageGallery.domain.model.UnsplashImage
 
@@ -47,7 +48,7 @@ fun ListContent(items: LazyPagingItems<UnsplashImage>, onClickAction: (String) -
         modifier = Modifier
             .fillMaxSize()
             .animateContentSize(tween(500)),
-        contentPadding = PaddingValues(all = 12.dp),
+        contentPadding = PaddingValues(all = MaterialTheme.spacing.small),
         verticalItemSpacing = 12.dp,
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
