@@ -31,7 +31,6 @@ class UnsplashRemoteMediator @Inject constructor(
         loadType: LoadType,
         state: PagingState<Int, UnsplashImageResponse>
     ): MediatorResult {
-        Log.d("MY_TAG", "load: sortOrderType ${sortOrder}")
         try {
             val remoteKeys = mapRemoteKeys(loadType, state)
 
@@ -53,7 +52,6 @@ class UnsplashRemoteMediator @Inject constructor(
                 }
             }
 
-            //TODO сделать класс для хранения варианта сортировки, возможно синглтон?
             val response = unsplashApi.getImages(currentPage, Constants.ITEMS_PER_PAGE, sortOrder)
             return handleResponse(response, currentPage, loadType)
         } catch (e: Exception) {

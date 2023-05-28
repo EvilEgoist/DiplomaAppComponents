@@ -1,5 +1,7 @@
 package ru.diploma.appcomponents.imageGallery.presentation.mainScreen
 
+import androidx.compose.animation.*
+import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -7,10 +9,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
@@ -40,30 +39,48 @@ fun ImageGalleryRoute(
     val sortOrderState = viewModel.sortOrderFlow.collectAsStateWithLifecycle()
     val currentSortOrder by remember{sortOrderState}
 
-    Surface(
-        Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
+    val visibility by remember {
+        mutableStateOf(MutableTransitionState(false))
+    }
+
+    LaunchedEffect(key1 = Unit, block = {
+        visibility.targetState = true
+    })
+
+    AnimatedVisibility(
+        visibleState = visibility,
+        enter = expandHorizontally (clip = false) + scaleIn(),
+        exit = shrinkHorizontally()
     ) {
-        Column(Modifier.fillMaxSize()) {
-            mainScreenSearchBar {
-                navigationManager.navigate(object : NavigationCommand {
-                    override val destination: String = NavigationDestination.SearchImages.route
-                })
-            }
-            Spacer(Modifier.height(MaterialTheme.spacing.extraSmall))
-            SortOrderMenu(modifier = Modifier
-                .background(MaterialTheme.colorScheme.background)
-                .padding(start = MaterialTheme.spacing.small), currentSortOrder = currentSortOrder, onItemClick = {
-                viewModel.changeSortOrder(it)
-                navigationManager.navigate(object : NavigationCommand{
-                    override val destination: String = NavigationDestination.ImageGallery.route
-                })
-            } )
-            Spacer(Modifier.height(MaterialTheme.spacing.extraSmall))
-            ListContent(items = imageItems) {
-                navigationManager.navigate(object : NavigationCommand {
-                    override val destination: String = NavigationDestination.ImageDetails.route + it
-                })
+        Surface(
+            Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            Column(Modifier.fillMaxSize()) {
+                mainScreenSearchBar(modifier = Modifier.padding(horizontal = MaterialTheme.spacing.small)) {
+                    navigationManager.navigate(object : NavigationCommand {
+                        override val destination: String = NavigationDestination.SearchImages.route
+                    })
+                }
+                Spacer(Modifier.height(MaterialTheme.spacing.extraSmall))
+                SortOrderMenu(modifier = Modifier
+                    .background(MaterialTheme.colorScheme.background)
+                    .padding(start = MaterialTheme.spacing.small),
+                    currentSortOrder = currentSortOrder,
+                    onItemClick = {
+                        viewModel.changeSortOrder(it)
+                        navigationManager.navigate(object : NavigationCommand {
+                            override val destination: String =
+                                NavigationDestination.ImageGallery.route
+                        })
+                    })
+                Spacer(Modifier.height(MaterialTheme.spacing.extraSmall))
+                ListContent(items = imageItems) {
+                    navigationManager.navigate(object : NavigationCommand {
+                        override val destination: String =
+                            NavigationDestination.ImageDetails.route + it
+                    })
+                }
             }
         }
     }
@@ -71,7 +88,7 @@ fun ImageGalleryRoute(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun mainScreenSearchBar(onSearchBarClicked: () -> Unit) {
+fun mainScreenSearchBar(modifier: Modifier = Modifier, onSearchBarClicked: () -> Unit) {
     SearchBar(
         query = "",
         onQueryChange = {},
@@ -79,7 +96,7 @@ fun mainScreenSearchBar(onSearchBarClicked: () -> Unit) {
         active = false,
         onActiveChange = {},
         enabled = false,
-        modifier = Modifier
+        modifier = modifier
             .clickable { onSearchBarClicked() }
             .fillMaxWidth(),
         leadingIcon = {

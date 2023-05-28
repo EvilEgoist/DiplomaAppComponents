@@ -1,6 +1,7 @@
 package ru.diploma.appcomponents.imageGallery.presentation.composable
 
 import androidx.compose.foundation.LocalIndication
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -76,7 +77,7 @@ fun SortOrderMenu(
                 val iconModifier = if (currentSortOrder == SortOrder.OLDEST) Modifier.scale(1f, -1f) else Modifier
                 Icon(imageVector = Icons.Rounded.Sort, contentDescription = "sort order", modifier = iconModifier)
                 Spacer(modifier = Modifier.width(MaterialTheme.spacing.small))
-                Text(text = currentSortOrder.mapValueToUiText())
+                Text(text = currentSortOrder.mapValueToUiText(), color = MaterialTheme.colorScheme.onBackground)
             }
         }
         DropdownMenu(
@@ -86,15 +87,17 @@ fun SortOrderMenu(
             },
             offset = pressOffset.copy(
                 y = pressOffset.y - itemHeight
-            )
+            ),
+            modifier = Modifier.background(MaterialTheme.colorScheme.surface)
         ) {
             enumValues<SortOrder>().forEach {
                 DropdownMenuItem(
+                    modifier = Modifier.background(MaterialTheme.colorScheme.surface),
                     onClick = {
                         isContextMenuVisible = false
                         onItemClick(it)
                     }) {
-                    Text(it.mapValueToUiText())
+                    Text(it.mapValueToUiText(), color = MaterialTheme.colorScheme.onBackground)
                 }
             }
         }

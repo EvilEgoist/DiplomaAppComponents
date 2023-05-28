@@ -124,7 +124,7 @@ fun UnsplashItem(unsplashImage: UnsplashImage, onClickAction: (String) -> Unit) 
                 overflow = TextOverflow.Ellipsis
             )
             LikeCounter(
-                modifier = Modifier.weight(3f),
+                modifier = Modifier.weight(3f).fillMaxSize(),
                 painter = painterResource(id = R.drawable.ic_heart),
                 likes = "${unsplashImage.likes}"
             )
@@ -139,7 +139,7 @@ fun LikeCounter(
     likes: String
 ) {
     Row(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.End
     ) {
