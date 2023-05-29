@@ -1,9 +1,10 @@
 package ru.diploma.appcomponents.imageGallery.presentation.detailscreen
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.expandHorizontally
-import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -14,6 +15,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.OpenInBrowser
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -24,8 +26,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat.startActivity
 import androidx.core.graphics.toColorInt
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -178,6 +187,7 @@ private fun SetPhotoAndInfo(
                 )
             }
         }
+        OpenBrowserArtistButton(image = image)
     }
 }
 
@@ -206,7 +216,64 @@ fun LikesRow(
             tint = Color.Red
         )
         Spacer(modifier = Modifier.width(MaterialTheme.spacing.small))
-        Text(text = image.likes.toString(), color = MaterialTheme.colorScheme.onSecondaryContainer)
+        Text(
+            text = image.likes.toString(),
+            style = MaterialTheme.typography.regularTextWithoutColor,
+            color = MaterialTheme.colorScheme.onSecondaryContainer
+        )
+    }
+}
+
+@Composable
+fun OpenBrowserArtistButton(image: UnsplashImage, modifier: Modifier = Modifier) {
+    val context = LocalContext.current
+    Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
+    Button(
+        onClick = {
+            val browserIntent = Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("https://unsplash.com/@${image.author.authorName}?utm_source=DemoApp&utm_medium=referral")
+            )
+            startActivity(context, browserIntent, null)
+        },
+        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = MaterialTheme.spacing.medium)
+            .alpha(0.6f),
+        contentPadding = PaddingValues(
+            horizontal = MaterialTheme.spacing.small,
+            vertical = MaterialTheme.spacing.small
+        ),
+        shape = RoundedCornerShape(MaterialTheme.dimensions.LOGO_CORNER_SHAPE)
+    ) {
+        Text(
+            text = buildAnnotatedString {
+                append("Photo by ")
+                withStyle(
+                    style = SpanStyle(
+                        fontFamily = FontFamily.SansSerif,
+                        fontStyle = FontStyle.Italic
+                    )
+                ) {
+                    append(image.author.authorName)
+                }
+                append(" on Unsplash")
+            },
+            color = MaterialTheme.colorScheme.onSecondaryContainer,
+            style = MaterialTheme.typography.regularTextWithoutColor,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.weight(0.8f),
+            maxLines = 1
+        )
+        Icon(
+            imageVector = Icons.Rounded.OpenInBrowser,
+            contentDescription = "open artist in browser",
+            tint = MaterialTheme.colorScheme.onSecondaryContainer,
+            modifier = Modifier
+                .weight(0.15f)
+                .padding(MaterialTheme.spacing.small)
+        )
     }
 }
 
