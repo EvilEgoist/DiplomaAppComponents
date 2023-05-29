@@ -13,10 +13,7 @@ import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -42,6 +39,7 @@ import ru.diploma.appcomponents.core.navigation.NavigationManager
 import ru.diploma.appcomponents.core.theme.spacing
 import ru.diploma.appcomponents.imageGallery.domain.model.SearchHistoryModel
 import ru.diploma.appcomponents.imageGallery.presentation.composable.ListContent
+import ru.diploma.appcomponents.imageGallery.presentation.composable.SortOrderMenu
 import ru.diploma.appcomponents.imageGallery.presentation.searchScreen.swipe.*
 import kotlin.math.absoluteValue
 
@@ -56,6 +54,9 @@ fun SearchRoute(
     val searchedImages = viewModel.searchedImages.collectAsLazyPagingItems()
     var active by rememberSaveable { mutableStateOf(false) }
     var focusRequester = remember { FocusRequester() }
+
+    val sortOrderState = viewModel.sortOrderFlow.collectAsStateWithLifecycle()
+    val currentSortOrder by remember{sortOrderState}
 
     LaunchedEffect(key1 = Unit, block = {
         if (searchQuery.isNotBlank()){
@@ -99,7 +100,15 @@ fun SearchRoute(
                         active = false
                     }
                 }
-                Spacer(Modifier.height(MaterialTheme.spacing.medium))
+                Spacer(Modifier.height(MaterialTheme.spacing.extraSmall))
+                SortOrderMenu(modifier = Modifier
+                    .background(MaterialTheme.colorScheme.background)
+                    .padding(start = MaterialTheme.spacing.small),
+                    currentSortOrder = currentSortOrder,
+                    onItemClick = {
+                        viewModel.changeSortOrder(it)
+                    })
+                Spacer(Modifier.height(MaterialTheme.spacing.extraSmall))
                 ListContent(items = searchedImages) {
                     navigationManager.navigate(object : NavigationCommand {
                         override val destination: String =

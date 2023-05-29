@@ -10,13 +10,14 @@ import ru.diploma.appcomponents.imageGallery.util.Constants.ITEMS_PER_PAGE
 
 class SearchPagingSource(
     private val unsplashApi: UnsplashApi,
-    private val query: String
+    private val query: String,
+    private val orderBy: String,
 ) : PagingSource<Int, UnsplashImageResponse>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, UnsplashImageResponse> {
         return try {
             val currentPage = params.key ?: 1
-            val response = unsplashApi.searchImages(query = query, currentPage, perPage = ITEMS_PER_PAGE, CURR_ORDER_BY)
+            val response = unsplashApi.searchImages(query = query, currentPage, perPage = ITEMS_PER_PAGE, orderBy)
             when (response){
                 is NetworkResponse.Success -> {
                     val endOfPaginationReached = response.body.images.isEmpty()

@@ -9,10 +9,7 @@ import ru.diploma.appcomponents.imageGallery.data.repository.ImagesRepositoryImp
 import ru.diploma.appcomponents.imageGallery.data.repository.SearchSuggestionsRepositoryImpl
 import ru.diploma.appcomponents.imageGallery.domain.repository.ImagesRepository
 import ru.diploma.appcomponents.imageGallery.domain.repository.SearchSuggestionsRepository
-import ru.diploma.appcomponents.imageGallery.domain.usecase.GetImagesUseCase
-import ru.diploma.appcomponents.imageGallery.domain.usecase.GetSortOrderUseCase
-import ru.diploma.appcomponents.imageGallery.domain.usecase.getImages
-import ru.diploma.appcomponents.imageGallery.domain.usecase.getSortOrder
+import ru.diploma.appcomponents.imageGallery.domain.usecase.*
 import javax.inject.Singleton
 
 @Module(includes = [ImageGalleryModule.BindsRepoModule::class])
@@ -31,9 +28,18 @@ object ImageGalleryModule {
     @Provides
     fun provideGetSortOrderUseCase(
         imagesRepository: ImagesRepository
-    ): GetSortOrderUseCase{
-        return GetSortOrderUseCase {
+    ): GetMainScreenSortOrderUseCase{
+        return GetMainScreenSortOrderUseCase {
             getSortOrder(imagesRepository)
+        }
+    }
+
+    @Provides
+    fun provideSearchScreenSortOrderUseCase(
+        imagesRepository: ImagesRepository
+    ): GetSearchScreenSortOrderUseCase{
+        return GetSearchScreenSortOrderUseCase {
+            getSearchScreenSortOrder(imagesRepository)
         }
     }
 

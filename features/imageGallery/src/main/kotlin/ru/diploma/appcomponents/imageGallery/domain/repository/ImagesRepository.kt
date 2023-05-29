@@ -15,7 +15,9 @@ interface ImagesRepository {
 
     suspend fun getImageDetails(id: String): UnsplashImage
 
-    fun getSortOrderFlow(): MutableStateFlow<SortOrder>
+    fun getMainScreenSortOrderFlow(): MutableStateFlow<SortOrder>
+
+    fun getSearchScreenSortOrderFlow(): MutableStateFlow<SortOrder>
 
     suspend fun deleteAllImages()
 }

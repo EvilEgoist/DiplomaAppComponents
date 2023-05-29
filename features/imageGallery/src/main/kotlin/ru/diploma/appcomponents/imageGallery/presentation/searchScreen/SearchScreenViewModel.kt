@@ -13,22 +13,29 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ru.diploma.appcomponents.imageGallery.domain.model.SearchHistoryModel
 import ru.diploma.appcomponents.imageGallery.domain.model.UnsplashImage
+import ru.diploma.appcomponents.imageGallery.domain.usecase.GetSearchScreenSortOrderUseCase
 import ru.diploma.appcomponents.imageGallery.domain.usecase.SearchImagesUseCase
+import ru.diploma.appcomponents.imageGallery.util.SortOrder
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchScreenViewModel @Inject constructor(
-    private val searchImagesUseCase: SearchImagesUseCase
+    private val searchImagesUseCase: SearchImagesUseCase,
+    private val getSearchScreenSortOrderUseCase: GetSearchScreenSortOrderUseCase
 ) : ViewModel() {
 
     private val _searchQuery = MutableStateFlow("")
     val searchQuery = _searchQuery.asStateFlow()
 
-    private val _searchedImages = MutableStateFlow<PagingData<UnsplashImage>>(PagingData.empty())
+    private var _searchedImages = MutableStateFlow<PagingData<UnsplashImage>>(PagingData.empty())
     val searchedImages = _searchedImages.asStateFlow()
 
     private val _searchSuggestions = searchImagesUseCase.getSuggestionsFlow()
     val searchSuggestions = _searchSuggestions.asStateFlow()
+
+    private val _sortOrderFlow = getSearchScreenSortOrderUseCase()
+    val sortOrderFlow = _sortOrderFlow.asStateFlow()
+
 
     init{
         viewModelScope.launch {
@@ -65,5 +72,13 @@ class SearchScreenViewModel @Inject constructor(
             searchImagesUseCase.getSearchSuggestions(_searchQuery.value)
         }
     }
-
+    fun changeSortOrder(sortOrder: SortOrder){
+        _sortOrderFlow.value = sortOrder
+        viewModelScope.launch(Dispatchers.IO) {
+            //searchImagesUseCase.insertSearchQuery(_searchQuery.value)
+            searchImagesUseCase.searchImages(_searchQuery.value).cachedIn(viewModelScope).collect {
+                _searchedImages.value = it
+            }
+        }
+    }
 }

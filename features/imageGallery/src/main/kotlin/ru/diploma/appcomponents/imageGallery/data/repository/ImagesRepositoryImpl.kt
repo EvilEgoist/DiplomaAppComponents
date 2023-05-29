@@ -21,7 +21,8 @@ class ImagesRepositoryImpl @Inject constructor(
     private val unsplashDatabase: UnsplashDatabase
 ): ImagesRepository{
 
-    private val sortOrderFlow = MutableStateFlow(SortOrder.LATEST)
+    private val mainScreenSortOrderFlow = MutableStateFlow(SortOrder.LATEST)
+    private val searchScreenSortOrderFlow = MutableStateFlow(SortOrder.LATEST)
 
     @OptIn(ExperimentalPagingApi::class)
     override fun getImages(): Flow<PagingData<UnsplashImage>>{
@@ -32,7 +33,7 @@ class ImagesRepositoryImpl @Inject constructor(
             remoteMediator = UnsplashRemoteMediator(
                 unsplashApi = unsplashApi,
                 unsplashDatabase = unsplashDatabase,
-                sortOrder = sortOrderFlow.value.value
+                sortOrder = mainScreenSortOrderFlow.value.value
             ),
             pagingSourceFactory = pagingSourceFactory
         ).flow.map { pagingData ->
@@ -46,7 +47,7 @@ class ImagesRepositoryImpl @Inject constructor(
         return Pager(
             config = PagingConfig(pageSize = Constants.ITEMS_PER_PAGE, initialLoadSize = Constants.ITEMS_PER_PAGE),
             pagingSourceFactory = {
-                SearchPagingSource(unsplashApi = unsplashApi, query = query)
+                SearchPagingSource(unsplashApi = unsplashApi, query = query, orderBy = searchScreenSortOrderFlow.value.value)
             }
         ).flow.map { pagingData ->
             pagingData.map {
@@ -73,8 +74,12 @@ class ImagesRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getSortOrderFlow(): MutableStateFlow<SortOrder>{
-        return sortOrderFlow
+    override fun getMainScreenSortOrderFlow(): MutableStateFlow<SortOrder>{
+        return mainScreenSortOrderFlow
+    }
+
+    override fun getSearchScreenSortOrderFlow(): MutableStateFlow<SortOrder> {
+        return searchScreenSortOrderFlow
     }
 
     override suspend fun deleteAllImages() {
