@@ -1,8 +1,12 @@
 package ru.diploma.appcomponents.imageGallery.presentation.composable
 
-import androidx.compose.animation.animateContentSize
+import android.util.Log
+import androidx.compose.animation.*
+import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
@@ -13,12 +17,16 @@ import androidx.compose.material.Text
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.ColorMatrix
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -28,16 +36,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.sp
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemContentType
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.AsyncImage
+import coil.compose.AsyncImagePainter
+import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
+import coil.size.Size
 import ru.diploma.appcomponents.core.theme.dimensions
 import ru.diploma.appcomponents.core.theme.spacing
 import ru.diploma.appcomponents.features.imageGallery.R
 import ru.diploma.appcomponents.imageGallery.domain.model.UnsplashImage
+import kotlin.math.min
 
 @OptIn(ExperimentalFoundationApi::class)
 @ExperimentalCoilApi
@@ -60,8 +73,22 @@ fun ListContent(items: LazyPagingItems<UnsplashImage>, onClickAction: (String) -
             contentType = items.itemContentType(
             )
         ) { index ->
-            val item = items[index]
-            item?.let { UnsplashItem(unsplashImage = it, onClickAction = onClickAction) }
+            val visibility by remember {
+                mutableStateOf(MutableTransitionState(false))
+            }
+
+            LaunchedEffect(key1 = Unit, block = {
+                visibility.targetState = true
+            })
+
+            AnimatedVisibility(
+                visibleState = visibility,
+                enter = expandHorizontally(clip = false) + scaleIn(),
+                exit = shrinkHorizontally() + scaleOut()
+            ) {
+                val item = items[index]
+                item?.let { UnsplashItem(unsplashImage = it, onClickAction = onClickAction) }
+            }
         }
     }
 }
@@ -84,16 +111,39 @@ fun UnsplashItem(unsplashImage: UnsplashImage, onClickAction: (String) -> Unit) 
             .fillMaxWidth(),
         contentAlignment = Alignment.BottomCenter
     ) {
-        AsyncImage(
+//        AsyncImage(
+//            model = ImageRequest.Builder(LocalContext.current)
+//                .data(unsplashImage.urls.imageUrl)
+//                .crossfade(true)
+//                .build(),
+//            modifier = Modifier
+//                .fillMaxSize()
+//                .clip(RoundedCornerShape(MaterialTheme.dimensions.LOGO_CORNER_SHAPE)),
+//            contentDescription = "Unsplash Image",
+//            //contentScale = ContentScale.Crop
+//        )
+        val painter = rememberAsyncImagePainter(
             model = ImageRequest.Builder(LocalContext.current)
                 .data(unsplashImage.urls.imageUrl)
-                .crossfade(true)
-                .build(),
+                .size(Size.ORIGINAL) // Set the target size to load the image at.
+                .build()
+        )
+        val state = painter.state
+
+        val transition by animateFloatAsState(
+            targetValue = if (state is AsyncImagePainter.State.Success) 1f else 0f
+        )
+        if (painter.state is AsyncImagePainter.State.Loading) {
+            LoadingAnimation()
+        }
+        Image(
+            painter = painter,
+            contentDescription = "custom transition based on painter state",
             modifier = Modifier
-                .fillMaxSize()
-                .clip(RoundedCornerShape(MaterialTheme.dimensions.LOGO_CORNER_SHAPE)),
-            contentDescription = "Unsplash Image",
-            //contentScale = ContentScale.Crop
+                .scale(.8f + (.2f * transition))
+                .alpha(min(1f, transition / .2f))
+                .alpha(transition),
+            colorFilter = ColorFilter.colorMatrix(ColorMatrix().apply { setToSaturation(transition) })
         )
         Surface(
             modifier = Modifier
@@ -124,7 +174,9 @@ fun UnsplashItem(unsplashImage: UnsplashImage, onClickAction: (String) -> Unit) 
                 overflow = TextOverflow.Ellipsis
             )
             LikeCounter(
-                modifier = Modifier.weight(3f).fillMaxSize(),
+                modifier = Modifier
+                    .weight(3f)
+                    .fillMaxSize(),
                 painter = painterResource(id = R.drawable.ic_heart),
                 likes = "${unsplashImage.likes}"
             )

@@ -33,8 +33,7 @@ fun ImageGalleryRoute(
     navigationManager: NavigationManager,
 ) {
 
-    val imageItemsFlow by remember{ mutableStateOf(viewModel.getImages) }
-    var imageItems = imageItemsFlow.collectAsLazyPagingItems()
+    var imageItems = viewModel.images.collectAsLazyPagingItems()
 
     val sortOrderState = viewModel.sortOrderFlow.collectAsStateWithLifecycle()
     val currentSortOrder by remember{sortOrderState}
@@ -69,10 +68,6 @@ fun ImageGalleryRoute(
                     currentSortOrder = currentSortOrder,
                     onItemClick = {
                         viewModel.changeSortOrder(it)
-                        navigationManager.navigate(object : NavigationCommand {
-                            override val destination: String =
-                                NavigationDestination.ImageGallery.route
-                        })
                     })
                 Spacer(Modifier.height(MaterialTheme.spacing.extraSmall))
                 ListContent(items = imageItems) {

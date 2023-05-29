@@ -75,7 +75,8 @@ fun SearchRoute(
         ) {
             Column(Modifier.fillMaxSize()) {
                 SearchWidget(
-                    modifier = Modifier.focusRequester(focusRequester),
+                    modifier = Modifier.focusRequester(focusRequester)
+                        .padding(horizontal = MaterialTheme.spacing.small),
                     text = searchQuery,
                     onTextChange = {
                         viewModel.updateSearchQuery(query = it)

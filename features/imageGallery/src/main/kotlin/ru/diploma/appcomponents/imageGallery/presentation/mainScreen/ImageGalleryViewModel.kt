@@ -1,13 +1,17 @@
 package ru.diploma.appcomponents.imageGallery.presentation.mainScreen
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import ru.diploma.appcomponents.imageGallery.domain.usecase.DeleteImagesUseCase
-import ru.diploma.appcomponents.imageGallery.domain.usecase.GetMainScreenSortOrderUseCase
+import kotlinx.coroutines.launch
+import ru.diploma.appcomponents.imageGallery.domain.model.UnsplashImage
 import ru.diploma.appcomponents.imageGallery.domain.usecase.GetImagesUseCase
-import ru.diploma.appcomponents.imageGallery.domain.usecase.GetNewImagesUseCase
+import ru.diploma.appcomponents.imageGallery.domain.usecase.GetMainScreenSortOrderUseCase
 import ru.diploma.appcomponents.imageGallery.util.SortOrder
 import javax.inject.Inject
 
@@ -15,17 +19,28 @@ import javax.inject.Inject
 class ImageGalleryViewModel @Inject constructor(
     private val getImagesUseCase: GetImagesUseCase,
     private val getMainScreenSortOrderUseCase: GetMainScreenSortOrderUseCase,
-    private val deleteImagesUseCase: DeleteImagesUseCase,
-    private val getNewImagesUseCase: GetNewImagesUseCase
 ) : ViewModel() {
 
-    var getImages = getImagesUseCase()
+    private var _images = MutableStateFlow<PagingData<UnsplashImage>>(PagingData.empty())
+    val images = _images.asStateFlow()
 
     private val _sortOrderFlow = getMainScreenSortOrderUseCase()
     val sortOrderFlow = _sortOrderFlow.asStateFlow()
 
-    fun changeSortOrder(sortOrder: SortOrder){
+    init {
+        getImages()
+    }
+
+    fun changeSortOrder(sortOrder: SortOrder) {
         _sortOrderFlow.value = sortOrder
-        getImages = getNewImagesUseCase.getNewImagesPagingData()
+        getImages()
+    }
+
+    private fun getImages() {
+        viewModelScope.launch(Dispatchers.IO) {
+            getImagesUseCase().cachedIn(viewModelScope).collect {
+                _images.value = it
+            }
+        }
     }
 }
