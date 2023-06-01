@@ -74,7 +74,7 @@ internal class NetworkCall<S : Any, E : Any>(
     }
 
     override fun execute(): Response<NetworkResponse<S, E>> {
-      throw java.lang.UnsupportedOperationException("NetworkCall doesn't support execute")
+        throw java.lang.UnsupportedOperationException("NetworkCall doesn't support execute")
     }
 
     override fun isExecuted(): Boolean {
@@ -82,11 +82,11 @@ internal class NetworkCall<S : Any, E : Any>(
     }
 
     override fun cancel() {
-       return delegate.cancel()
+        return delegate.cancel()
     }
 
     override fun isCanceled(): Boolean {
-       return delegate.isCanceled
+        return delegate.isCanceled
     }
 
     override fun request(): Request {
@@ -94,6 +94,6 @@ internal class NetworkCall<S : Any, E : Any>(
     }
 
     override fun timeout(): Timeout {
-       return delegate.timeout()
+        return delegate.timeout()
     }
 }

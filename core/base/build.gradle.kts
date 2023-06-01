@@ -71,5 +71,7 @@ dependencies {
     implementation(libs.navigation)
     implementation(libs.navigation.hilt)
     implementation(libs.timber)
+    implementation(libs.splash.screen)
+
     //implementation project(path: ':core:ui')
 }

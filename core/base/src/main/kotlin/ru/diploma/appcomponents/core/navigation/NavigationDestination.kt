@@ -1,4 +1,4 @@
-package ru.diploma.appcomponents.core.navigation
+    package ru.diploma.appcomponents.core.navigation
 
 const val IMAGE_ID_PARAM_NAME = "image_id"
 sealed class NavigationDestination(

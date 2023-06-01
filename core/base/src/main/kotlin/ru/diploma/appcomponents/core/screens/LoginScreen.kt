@@ -105,7 +105,7 @@ fun Login(videoUri: Uri) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Icon(
-                painter = painterResource(id = R.drawable.logo),
+                painter = painterResource(id = R.drawable.ic_logo),
                 null,
                 Modifier.size(80.dp),
                 tint = Color.White

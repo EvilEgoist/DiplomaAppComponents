@@ -34,6 +34,9 @@ room_paging = "1.0.0-alpha19"
 timber = "5.0.1"
 
 recyclerview = "1.3.0"
+splash_screen = "1.0.0"
+
+glance_version = "1.0.0-beta01"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "android-gradle" }
@@ -58,6 +61,7 @@ compose_material3 = { module = "androidx.compose.material3:material3", version.r
 compose_material3_window_size = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "compose_material3" }
 compose_lifecycle = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "compose_lifecycle" }
 coil = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+splash_screen = { module = "androidx.core:core-splashscreen", version.ref = "splash_screen" }
 
 #di
 hilt = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
@@ -101,6 +105,9 @@ room_paging_compose = { module = "androidx.paging:paging-compose", version.ref =
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 
 recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
+
+glance = { module = "androidx.glance:glance", version.ref = "glance_version" }
+glance_widget = { module = "androidx.glance:glance-appwidget", version.ref = "glance_version" }
 
 [bundles]
 # Define bundles/groups of libraries
