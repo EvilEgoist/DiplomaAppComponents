@@ -1,4 +1,4 @@
-package ru.diploma.appcomponents.core.expandablecard
+package uicomponents.expandablecard
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.animateColor

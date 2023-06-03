@@ -1,4 +1,4 @@
-package ru.diploma.appcomponents.core.expandablecard
+package uicomponents.expandablecard
 
 data class ExpandableCardModel(
     val id: Int,

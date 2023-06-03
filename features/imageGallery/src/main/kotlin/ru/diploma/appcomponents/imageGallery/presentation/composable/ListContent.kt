@@ -50,6 +50,7 @@ import ru.diploma.appcomponents.core.theme.dimensions
 import ru.diploma.appcomponents.core.theme.spacing
 import ru.diploma.appcomponents.features.imageGallery.R
 import ru.diploma.appcomponents.imageGallery.domain.model.UnsplashImage
+import uicomponents.animatedAsyncImage.AnimatedAsyncImage
 import kotlin.math.min
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -122,29 +123,7 @@ fun UnsplashItem(unsplashImage: UnsplashImage, onClickAction: (String) -> Unit) 
 //            contentDescription = "Unsplash Image",
 //            //contentScale = ContentScale.Crop
 //        )
-        val painter = rememberAsyncImagePainter(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(unsplashImage.urls.imageUrl)
-                .size(Size.ORIGINAL) // Set the target size to load the image at.
-                .build()
-        )
-        val state = painter.state
-
-        val transition by animateFloatAsState(
-            targetValue = if (state is AsyncImagePainter.State.Success) 1f else 0f
-        )
-        if (painter.state is AsyncImagePainter.State.Loading) {
-            LoadingAnimation()
-        }
-        Image(
-            painter = painter,
-            contentDescription = "custom transition based on painter state",
-            modifier = Modifier
-                .scale(.8f + (.2f * transition))
-                .alpha(min(1f, transition / .2f))
-                .alpha(transition),
-            colorFilter = ColorFilter.colorMatrix(ColorMatrix().apply { setToSaturation(transition) })
-        )
+        AnimatedAsyncImage(url = unsplashImage.urls.imageUrl)
         Surface(
             modifier = Modifier
                 .height(40.dp)

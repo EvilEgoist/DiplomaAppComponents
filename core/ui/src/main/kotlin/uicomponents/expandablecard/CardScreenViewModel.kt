@@ -1,4 +1,4 @@
-package ru.diploma.appcomponents.core.expandablecard
+package uicomponents.expandablecard
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

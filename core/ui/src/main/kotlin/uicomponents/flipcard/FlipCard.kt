@@ -1,4 +1,4 @@
-package ru.diploma.appcomponents.core.screens
+package uicomponents.flipcard
 
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background

@@ -1,1 +1,2 @@
-ru.diploma.appcomponents
+uicomponents
+raw clouds

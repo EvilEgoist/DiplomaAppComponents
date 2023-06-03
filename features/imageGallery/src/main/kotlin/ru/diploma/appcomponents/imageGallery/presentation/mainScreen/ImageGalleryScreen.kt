@@ -25,6 +25,7 @@ import ru.diploma.appcomponents.core.navigation.NavigationManager
 import ru.diploma.appcomponents.core.theme.spacing
 import ru.diploma.appcomponents.imageGallery.presentation.composable.ListContent
 import ru.diploma.appcomponents.imageGallery.presentation.composable.SortOrderMenu
+import uicomponents.cicrleRevealPager.CircleRevealPager
 
 
 @Composable
@@ -79,6 +80,7 @@ fun ImageGalleryRoute(
             }
         }
     }
+    //CircleRevealPager()
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

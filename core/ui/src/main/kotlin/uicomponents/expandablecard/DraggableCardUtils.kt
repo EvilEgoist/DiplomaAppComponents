@@ -1,4 +1,4 @@
-package ru.diploma.appcomponents.core.expandablecard
+package uicomponents.expandablecard
 
 import android.content.res.Resources
 import androidx.compose.ui.unit.Dp

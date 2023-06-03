@@ -1,4 +1,4 @@
-package ru.diploma.appcomponents.core.expandablecard
+package uicomponents.expandablecard
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Row

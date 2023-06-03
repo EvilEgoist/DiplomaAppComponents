@@ -3,14 +3,15 @@ package ru.diploma.appcomponents.core
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.DrawerValue
 import androidx.compose.material.rememberDrawerState
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,21 +23,16 @@ import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
-import ru.diploma.appcomponents.core.expandablecard.CardScreen
-import ru.diploma.appcomponents.core.expandablecard.CardsScreenViewModel
 import ru.diploma.appcomponents.core.navigation.NavigationDestination
 import ru.diploma.appcomponents.core.navigation.NavigationFactory
 import ru.diploma.appcomponents.core.navigation.NavigationHost
 import ru.diploma.appcomponents.core.navigation.NavigationManager
-import ru.diploma.appcomponents.core.screens.AnimatedFlipCard
-import ru.diploma.appcomponents.core.theme.*
+import ru.diploma.appcomponents.core.theme.AppTheme
 import ru.diploma.appcomponents.core.utils.collectWithLifecycle
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
-    private val cardsViewModel by viewModels<CardsScreenViewModel>()
 
     @Inject
     lateinit var navigationFactories: @JvmSuppressWildcards Set<NavigationFactory>
@@ -138,7 +134,6 @@ fun DefaultPreview() {
                     .width(400.dp),
                 contentAlignment = Alignment.Center
             ) {
-                AnimatedFlipCard()
             }
         }
 //        ModalDrawer(

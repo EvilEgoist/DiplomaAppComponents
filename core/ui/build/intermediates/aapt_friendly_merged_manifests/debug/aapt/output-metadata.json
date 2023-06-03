@@ -4,7 +4,7 @@
     "type": "AAPT_FRIENDLY_MERGED_MANIFESTS",
     "kind": "Directory"
   },
-  "applicationId": "ru.diploma.appcomponents",
+  "applicationId": "uicomponents",
   "variantName": "debug",
   "elements": [
     {

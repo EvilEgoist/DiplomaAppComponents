@@ -1,4 +1,4 @@
-package ru.diploma.appcomponents.imageGallery.presentation.composable
+package uicomponents.animatedAsyncImage
 
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.border

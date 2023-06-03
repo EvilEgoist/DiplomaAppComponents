@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "ru.diploma.appcomponents"
+    namespace = "uicomponents"
     compileSdk = SdkVersions.COMPILE_SDK
 
     defaultConfig {
@@ -47,10 +47,13 @@ android {
 }
 
 dependencies {
+    api(project(":core:base"))
     implementation(libs.hilt)
     kapt(libs.hilt.compiler)
     implementation(libs.bundles.android.core)
     implementation(libs.bundles.compose)
     implementation(libs.bundles.tests)
     implementation(libs.coil)
+    implementation(libs.media3)
+    implementation(libs.media3ui)
 }

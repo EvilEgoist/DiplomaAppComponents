@@ -87,7 +87,7 @@ fun DefaultPreview() {
                     .width(400.dp),
                 contentAlignment = Alignment.Center
             ) {
-                AnimatedFlipCard()
+
             }
         }
 //        ModalDrawer(

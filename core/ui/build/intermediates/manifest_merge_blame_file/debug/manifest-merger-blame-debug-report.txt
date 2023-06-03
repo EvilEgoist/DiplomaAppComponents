@@ -1,8 +1,8 @@
 1<?xml version="1.0" encoding="utf-8"?>
 2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-3    package="ru.diploma.appcomponents" >
+3    package="uicomponents" >
 4
 5    <uses-sdk android:minSdkVersion="1" />
-5-->C:\Android_Studio_Projects\DiplomaAppComponents\core\ui\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest17663942502609402569.xml
+5-->C:\Android_Studio_Projects\DiplomaAppComponents\core\ui\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest18098760919453190953.xml
 6
 7</manifest>

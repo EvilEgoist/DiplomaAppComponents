@@ -58,6 +58,7 @@ android {
 
 dependencies {
     implementation(project(":core:base"))
+    implementation(project(":core:ui"))
     implementation(project(":core:network"))
 
     implementation(libs.kotlinx.serialization.converter)

@@ -1,4 +1,4 @@
-@file:UnstableApi package ru.diploma.appcomponents.core.screens
+@file:UnstableApi package uicomponents.loginscreen
 
 import android.content.Context
 import android.net.Uri
