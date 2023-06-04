@@ -50,7 +50,7 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier
                         .fillMaxSize()
-                        .systemBarsPadding(),
+                        .statusBarsPadding(),
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()

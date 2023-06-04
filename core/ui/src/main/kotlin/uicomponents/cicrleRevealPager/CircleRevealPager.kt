@@ -12,7 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.paging.compose.LazyPagingItems
 import coil.compose.AsyncImage
+import ru.diploma.appcomponents.core.theme.spacing
 import uicomponents.utils.endOffsetForPage
 import uicomponents.utils.offsetForPage
 import uicomponents.utils.startOffsetForPage
@@ -60,7 +61,7 @@ fun CircleRevealPager(itemsList: List<Any>, item: @Composable (Int) -> Unit) {
                 offsetY = it.y
                 false
             }
-            .padding(horizontal = 32.dp, vertical = 64.dp)
+            .padding(horizontal = MaterialTheme.spacing.large, vertical = MaterialTheme.spacing.large)
             .clip(
                 RoundedCornerShape(25.dp)
             )
@@ -115,7 +116,7 @@ fun LazyItemsCircleReveal(itemsList: LazyPagingItems<out Any>, item: @Composable
                 offsetY = it.y
                 false
             }
-            .padding(horizontal = 32.dp, vertical = 64.dp)
+            .padding(start = MaterialTheme.spacing.large, end = MaterialTheme.spacing.large, top = MaterialTheme.spacing.medium, bottom = MaterialTheme.spacing.x_large)
             .clip(
                 RoundedCornerShape(25.dp)
             )

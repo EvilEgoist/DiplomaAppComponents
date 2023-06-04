@@ -24,14 +24,21 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import ru.diploma.appcomponents.core.navigation.NavigationCommand
+import ru.diploma.appcomponents.core.navigation.NavigationDestination
 import ru.diploma.appcomponents.core.navigation.NavigationManager
+import ru.diploma.appcomponents.core.theme.spacing
 import ru.diploma.appcomponents.imageGallery.domain.model.UnsplashImage
+import ru.diploma.appcomponents.imageGallery.presentation.composable.ListContent
+import ru.diploma.appcomponents.imageGallery.presentation.composable.SortOrderMenu
 import uicomponents.animatedAsyncImage.AnimatedAsyncImage
 import uicomponents.cicrleRevealPager.CirclePath
 import uicomponents.cicrleRevealPager.CircleRevealPager
@@ -51,7 +58,7 @@ fun ImageGalleryRoute(
     var imageItems = viewModel.images.collectAsLazyPagingItems()
 
     val sortOrderState = viewModel.sortOrderFlow.collectAsStateWithLifecycle()
-    val currentSortOrder by remember{sortOrderState}
+    val currentSortOrder by remember { sortOrderState }
 
     val visibility by remember {
         mutableStateOf(MutableTransitionState(false))
@@ -61,43 +68,48 @@ fun ImageGalleryRoute(
         visibility.targetState = true
     })
 
-//    AnimatedVisibility(
-//        visibleState = visibility,
-//        enter = expandHorizontally (clip = false) + scaleIn(),
-//        exit = shrinkHorizontally()
-//    ) {
-//        Surface(
-//            Modifier.fillMaxSize(),
-//            color = MaterialTheme.colorScheme.background
-//        ) {
-//            Column(Modifier.fillMaxSize()) {
-//                mainScreenSearchBar(modifier = Modifier.padding(horizontal = MaterialTheme.spacing.small)) {
-//                    navigationManager.navigate(object : NavigationCommand {
-//                        override val destination: String = NavigationDestination.SearchImages.route
-//                    })
-//                }
-//                Spacer(Modifier.height(MaterialTheme.spacing.extraSmall))
-//                SortOrderMenu(modifier = Modifier
-//                    .background(MaterialTheme.colorScheme.background)
-//                    .padding(start = MaterialTheme.spacing.small),
-//                    currentSortOrder = currentSortOrder,
-//                    onItemClick = {
-//                        viewModel.changeSortOrder(it)
-//                    })
-//                Spacer(Modifier.height(MaterialTheme.spacing.extraSmall))
+    AnimatedVisibility(
+        visibleState = visibility,
+        enter = expandHorizontally(clip = false) + scaleIn(),
+        exit = shrinkHorizontally()
+    ) {
+        Surface(
+            Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            Column(Modifier.fillMaxSize()) {
+                mainScreenSearchBar(modifier = Modifier.padding(horizontal = MaterialTheme.spacing.small)) {
+                    navigationManager.navigate(object : NavigationCommand {
+                        override val destination: String = NavigationDestination.SearchImages.route
+                    })
+                }
+                Spacer(Modifier.height(MaterialTheme.spacing.extraSmall))
+                SortOrderMenu(modifier = Modifier
+                    .background(MaterialTheme.colorScheme.background)
+                    .padding(start = MaterialTheme.spacing.small),
+                    currentSortOrder = currentSortOrder,
+                    onItemClick = {
+                        viewModel.changeSortOrder(it)
+                    })
+                Spacer(Modifier.height(MaterialTheme.spacing.extraSmall))
 //                ListContent(items = imageItems) {
 //                    navigationManager.navigate(object : NavigationCommand {
 //                        override val destination: String =
 //                            NavigationDestination.ImageDetails.route + it
 //                    })
 //                }
-//            }
-//        }
-//    }
-    LazyItemsCircleReveal(imageItems) {
-        Box(Modifier.fillMaxSize()) {
-            if (imageItems.itemCount > 0){
-                imageItems[it]?.let { it1 -> CircleRevealItem(unsplashImage = it1) }
+                LazyItemsCircleReveal(imageItems) {
+                    if (imageItems.itemCount > 0) {
+                        imageItems[it]?.let { it1 ->
+                            CircleRevealItem(unsplashImage = it1, onClick = { imageId ->
+                                navigationManager.navigate(object : NavigationCommand {
+                                    override val destination: String =
+                                        NavigationDestination.ImageDetails.route + imageId
+                                })
+                            })
+                        }
+                    }
+                }
             }
         }
     }
@@ -124,36 +136,52 @@ fun mainScreenSearchBar(modifier: Modifier = Modifier, onSearchBarClicked: () ->
 }
 
 @Composable
-fun BoxScope.CircleRevealItem(unsplashImage: UnsplashImage){
-    AnimatedAsyncImage(url = unsplashImage.urls.imageUrl, modifier = Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
+fun CircleRevealItem(
+    modifier: Modifier = Modifier,
+    unsplashImage: UnsplashImage,
+    onClick: (String) -> Unit
+) {
     Box(
-        modifier = Modifier
-            .align(Alignment.BottomCenter)
-            .fillMaxWidth()
-            .fillMaxHeight(.8f)
-            .background(
-                brush = Brush.verticalGradient(
-                    listOf(
-                        Color.Black.copy(alpha = 0f),
-                        Color.Black.copy(alpha = .7f),
+        modifier
+            .fillMaxSize()
+            .clickable {
+                onClick(unsplashImage.id)
+            }) {
+        AnimatedAsyncImage(
+            url = unsplashImage.urls.imageUrl,
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.Crop
+        )
+        Box(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .fillMaxWidth()
+                .fillMaxHeight(.8f)
+                .background(
+                    brush = Brush.verticalGradient(
+                        listOf(
+                            Color.Black.copy(alpha = 0f),
+                            Color.Black.copy(alpha = .7f),
+                        )
                     )
                 )
-            )
-    )
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-            .align(Alignment.BottomCenter)
-    ) {
-        Text(
-            text = "by ${unsplashImage.author.authorName}",
-            style = androidx.compose.material.MaterialTheme.typography.h1.copy(
-                color = Color.White,
-                fontSize = 36.sp,
-                fontWeight = FontWeight.Black,
-            )
         )
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+                .align(Alignment.BottomCenter)
+        ) {
+            Text(
+                text = "by ${unsplashImage.author.authorName}",
+                style = androidx.compose.material.MaterialTheme.typography.h1.copy(
+                    color = Color.White,
+                    fontSize = 36.sp,
+                    fontWeight = FontWeight.Black,
+                ),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
             Box(
                 modifier = Modifier
                     .padding(vertical = 4.dp)
@@ -161,15 +189,19 @@ fun BoxScope.CircleRevealItem(unsplashImage: UnsplashImage){
                     .height(1.dp)
                     .background(Color.White)
             )
-        if (unsplashImage.description != null){
-            Text(
-                text = unsplashImage.description,
-                style = MaterialTheme.typography.bodyMedium.copy(
-                    color = Color.White,
-                    fontSize = 14.sp,
-                    lineHeight = 22.sp,
+            if (unsplashImage.description != null) {
+                Text(
+                    text = unsplashImage.description,
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        color = Color.White,
+                        //fontSize = 14.sp,
+                        //lineHeight = 22.sp,
+                    ),
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 5,
+                    textAlign = TextAlign.Justify
                 )
-            )
+            }
         }
     }
 }

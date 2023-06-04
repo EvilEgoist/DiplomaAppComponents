@@ -49,6 +49,7 @@ import ru.diploma.appcomponents.core.theme.regularTextWithoutColor
 import ru.diploma.appcomponents.core.theme.spacing
 import ru.diploma.appcomponents.features.imageGallery.R
 import ru.diploma.appcomponents.imageGallery.domain.model.UnsplashImage
+import uicomponents.animatedAsyncImage.AnimatedAsyncImage
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -153,15 +154,12 @@ private fun SetPhotoAndInfo(
         modifier = Modifier
             .verticalScroll(scrollState)
     ) {
-        AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(image?.urls?.imageUrl)
-                .crossfade(true)
-                .build(),
+        AnimatedAsyncImage(
+            url = image.urls.imageUrl,
             modifier = Modifier
+                .fillMaxSize()
                 .padding(MaterialTheme.spacing.medium)
                 .clip(RoundedCornerShape(MaterialTheme.dimensions.LOGO_CORNER_SHAPE)),
-            contentDescription = "Unsplash Image",
             contentScale = ContentScale.Crop
         )
         LikesRow(image = image, paddingValues = paddingValues)
