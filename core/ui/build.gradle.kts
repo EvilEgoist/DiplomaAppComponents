@@ -56,4 +56,5 @@ dependencies {
     implementation(libs.coil)
     implementation(libs.media3)
     implementation(libs.media3ui)
+    api(libs.room.paging.compose)
 }
