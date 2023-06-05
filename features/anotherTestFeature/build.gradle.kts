@@ -1,17 +1,18 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.hilt)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kapt)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.kotlin.parcelize)
 }
 
 android {
-    namespace = "ru.diploma.appcomponents"
+    namespace = "testFeature"
     compileSdk = SdkVersions.COMPILE_SDK
 
-    defaultConfig {
-        applicationId = "ru.diploma.appcomponents"
+    with (defaultConfig) {
         minSdk = SdkVersions.MIN_SDK
         targetSdk = SdkVersions.TARGET_SDK
         versionCode = Releases.VERSION_CODE
@@ -25,7 +26,8 @@ android {
 
     buildTypes {
         debug {
-            isMinifyEnabled = true
+            isMinifyEnabled = false
+            buildConfigField("String", "API_KEY", properties["API_KEY"].toString())
         }
         release {
             isMinifyEnabled = true
@@ -37,6 +39,7 @@ android {
                 "proguard-rules.pro"
             )
         }
+
     }
     buildFeatures {
         compose = true
@@ -51,28 +54,15 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
-    packagingOptions {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
 }
 
 dependencies {
-
-    implementation(libs.hilt)
-    kapt(libs.hilt.compiler)
-    implementation(libs.bundles.android.core)
+    api(project(":core:base"))
+    api(project(":core:ui"))
     implementation(libs.bundles.compose)
-    implementation(libs.bundles.tests)
+    implementation(libs.navigation.hilt)
+    implementation(libs.navigation)
+    implementation(libs.hilt)
     implementation(libs.coil)
-    implementation(libs.media3)
-    implementation(libs.media3ui)
-    implementation(libs.splash.screen)
-    implementation(libs.glance)
-    implementation(libs.glance.widget)
-    implementation(project(":core:base"))
-    implementation(project(":features:imageGallery"))
-    implementation(project(":features:anotherTestFeature"))
-    //implementation project(path: ':core:ui')
+    kapt(libs.hilt.compiler)
 }

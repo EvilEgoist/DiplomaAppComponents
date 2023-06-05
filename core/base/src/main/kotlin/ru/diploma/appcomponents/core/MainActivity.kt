@@ -7,8 +7,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.DrawerValue
 import androidx.compose.material.rememberDrawerState
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.rememberCoroutineScope
@@ -23,10 +22,8 @@ import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
-import ru.diploma.appcomponents.core.navigation.NavigationDestination
-import ru.diploma.appcomponents.core.navigation.NavigationFactory
-import ru.diploma.appcomponents.core.navigation.NavigationHost
-import ru.diploma.appcomponents.core.navigation.NavigationManager
+import ru.diploma.appcomponents.core.navigation.*
+import ru.diploma.appcomponents.core.screens.AnimatedBottomNav
 import ru.diploma.appcomponents.core.theme.AppTheme
 import ru.diploma.appcomponents.core.utils.collectWithLifecycle
 import javax.inject.Inject
@@ -40,6 +37,7 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var navigationManager: NavigationManager
 
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -54,34 +52,51 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
-//                var drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-//                val scope = rememberCoroutineScope()
-//                ModalDrawer(
-//                    drawerContent = {
-//                        NavigationDrawerContent()
-//                    },
-//                    drawerState = drawerState,
-//                    content = {
-//                        MainScreen(drawerState, scope)
-//                    },
-//                    drawerShape = RoundedCornerShape(
-//                        topEnd = MaterialTheme.dimensions.DRAWER_CORNER_SHAPE,
-//                        bottomEnd = MaterialTheme.dimensions.DRAWER_CORNER_SHAPE
+                    var scaffoldState = rememberBottomSheetScaffoldState()
+//                    BottomSheetScaffold(
+//                        sheetContent = {
+//                            NavigationDrawerContent()
+//                        },
+//                        scaffoldState = scaffoldState,
+//                        content = {
+//                            Box(
+//                                Modifier
+//                                    .fillMaxSize()
+//                            ) {
+//                                //TransparentSystemBars()
+//                                //CardScreen(viewModel = cardsViewModel)
+//                                NavigationHost(
+//                                    navController = navController,
+//                                    factories = navigationFactories,
+//                                    navigationManager = navigationManager,
+//                                    modifier = Modifier.padding(vertical = sys)
+//                                )
+//                            }
+//                        },
+//                        sheetShape = RoundedCornerShape(
+//                            topEnd = MaterialTheme.dimensions.DRAWER_CORNER_SHAPE,
+//                            bottomEnd = MaterialTheme.dimensions.DRAWER_CORNER_SHAPE
+//                        )
 //                    )
-//                )
-                    Box(
-                        Modifier
-                            .fillMaxSize()
-                    ) {
-                        //TransparentSystemBars()
-                        //CardScreen(viewModel = cardsViewModel)
+
+                    Scaffold(
+                        modifier = Modifier.fillMaxSize(),
+                        contentWindowInsets = WindowInsets(0.dp),
+                        bottomBar = { AnimatedBottomNav(
+                            navigationManager = navigationManager,
+                            screens = listOf(
+                                ScreenModelBottomNav.ImageGallery,
+                                ScreenModelBottomNav.MovieScreen
+                            )
+                        )
+                    }) {
                         NavigationHost(
+                            modifier = Modifier.padding(it),
                             navController = navController,
                             factories = navigationFactories,
                             navigationManager = navigationManager
                         )
                     }
-
 
                     navigationManager
                         .navigationEvent

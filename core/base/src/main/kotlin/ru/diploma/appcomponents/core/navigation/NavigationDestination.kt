@@ -10,5 +10,7 @@ sealed class NavigationDestination(
 
     object ImageDetails : NavigationDestination("imageDetails/")
 
+    object MovieScreen : NavigationDestination("movieScreen")
+
     object Back : NavigationDestination("navigationBack")
 }

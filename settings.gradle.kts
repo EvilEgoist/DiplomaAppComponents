@@ -4,6 +4,7 @@ include(":core:ui")
 include(":core:network")
 include(":core:base")
 include(":features:imageGallery")
+include(":features:anotherTestFeature")
 
 pluginManagement {
     repositories {

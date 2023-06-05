@@ -1,4 +1,4 @@
-package ru.diploma.appcomponents.core
+package ru.diploma.appcomponents.core.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -16,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import ru.diploma.appcomponents.core.theme.*
-import kotlin.text.Typography
 
 @Composable
 fun NavigationDrawerContent(modifier: Modifier = Modifier) {

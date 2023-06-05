@@ -10,7 +10,12 @@ android {
     namespace = "uicomponents"
     compileSdk = SdkVersions.COMPILE_SDK
 
-    defaultConfig {
+    with (defaultConfig) {
+        minSdk = SdkVersions.MIN_SDK
+        targetSdk = SdkVersions.TARGET_SDK
+        versionCode = Releases.VERSION_CODE
+        versionName = Releases.VERSION_NAME
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true

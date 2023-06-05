@@ -2,6 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="uicomponents" >
 
-    <uses-sdk android:minSdkVersion="1" />
+    <uses-sdk android:minSdkVersion="31" />
 
 </manifest>

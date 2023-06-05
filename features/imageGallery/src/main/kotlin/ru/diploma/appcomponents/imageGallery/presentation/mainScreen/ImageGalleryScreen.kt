@@ -43,6 +43,7 @@ import uicomponents.animatedAsyncImage.AnimatedAsyncImage
 import uicomponents.cicrleRevealPager.CirclePath
 import uicomponents.cicrleRevealPager.CircleRevealPager
 import uicomponents.cicrleRevealPager.LazyItemsCircleReveal
+import uicomponents.moviePager.MoviePager
 import uicomponents.utils.endOffsetForPage
 import uicomponents.utils.offsetForPage
 import uicomponents.utils.startOffsetForPage

@@ -61,7 +61,10 @@ fun CircleRevealPager(itemsList: List<Any>, item: @Composable (Int) -> Unit) {
                 offsetY = it.y
                 false
             }
-            .padding(horizontal = MaterialTheme.spacing.large, vertical = MaterialTheme.spacing.large)
+            .padding(
+                horizontal = MaterialTheme.spacing.large,
+                vertical = MaterialTheme.spacing.large
+            )
             .clip(
                 RoundedCornerShape(25.dp)
             )
@@ -116,7 +119,12 @@ fun LazyItemsCircleReveal(itemsList: LazyPagingItems<out Any>, item: @Composable
                 offsetY = it.y
                 false
             }
-            .padding(start = MaterialTheme.spacing.large, end = MaterialTheme.spacing.large, top = MaterialTheme.spacing.medium, bottom = MaterialTheme.spacing.x_large)
+            .padding(
+                start = MaterialTheme.spacing.large,
+                end = MaterialTheme.spacing.large,
+                top = MaterialTheme.spacing.medium,
+                bottom = MaterialTheme.spacing.large
+            )
             .clip(
                 RoundedCornerShape(25.dp)
             )
