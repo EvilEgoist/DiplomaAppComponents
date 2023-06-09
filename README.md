@@ -51,4 +51,7 @@ https://github.com/EvilEgoist/DiplomaAppComponents/assets/79916148/aca4d4e8-85e4
 https://github.com/EvilEgoist/DiplomaAppComponents/assets/79916148/27342423-a714-4261-b503-fab450e3d1a3
 
 ### LoginScreen
-https://github.com/EvilEgoist/DiplomaAppComponents/assets/79916148/730277c5-7cf2-4b32-969d-69b0a2687787
+
+![login-screen](https://github.com/EvilEgoist/DiplomaAppComponents/assets/79916148/5fe3691a-ad41-4de4-b6ee-7016c7cee255)
+
+
