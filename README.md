@@ -6,7 +6,8 @@
 # Демонстрация UI
 
 ## Главный экран
-https://github.com/EvilEgoist/DiplomaAppComponents/assets/79916148/ed0d14e1-a716-4c31-b8fa-8d08ae0330ee
+
+https://github.com/EvilEgoist/DiplomaAppComponents/assets/79916148/416387dd-9ed8-49ca-9ec8-6c8d111703e8
 
 Используется пагинация данных, изображения и их ключи страниц сохраняются в БД
 
@@ -19,7 +20,7 @@ https://github.com/EvilEgoist/DiplomaAppComponents/assets/79916148/ed0d14e1-a716
 
 ## Экран поиска
 
-https://github.com/EvilEgoist/DiplomaAppComponents/assets/79916148/c5e16cb1-60de-4204-97c1-b0319f5aea97
+https://github.com/EvilEgoist/DiplomaAppComponents/assets/79916148/45a19bee-f765-4fac-a83f-7cc2f97c96d0
 
 Функционал аналогичен главному экрану. Но изображения не сохраняются в БД.
 
@@ -33,7 +34,7 @@ https://github.com/EvilEgoist/DiplomaAppComponents/assets/79916148/c5e16cb1-60de
 
 ## Экран детальной информации
 
-https://github.com/EvilEgoist/DiplomaAppComponents/assets/79916148/428e6a9d-d6c8-410b-8d56-c45835bb44cc
+https://github.com/EvilEgoist/DiplomaAppComponents/assets/79916148/b26937d2-16f0-4417-b4a5-d75007c7733f
 
 Для этого экрана используются:
 - `AnimatedAsyncImage`
@@ -42,16 +43,17 @@ https://github.com/EvilEgoist/DiplomaAppComponents/assets/79916148/428e6a9d-d6c8
 ## Другие UI-компоненты
 
 ### FluidButton
-https://github.com/EvilEgoist/DiplomaAppComponents/assets/79916148/cb782107-cee9-4fc4-8db3-c3b91e76af1b
+
+https://github.com/EvilEgoist/DiplomaAppComponents/assets/79916148/b55e2ac0-4925-41c1-a6f9-0525a2ae410c
 
 ### FlipCard
-https://github.com/EvilEgoist/DiplomaAppComponents/assets/79916148/aca4d4e8-85e4-41ea-ac63-00b480494f1c
+https://github.com/EvilEgoist/DiplomaAppComponents/assets/79916148/696f4b96-de03-4b88-b8ff-6739ce430385
 
 ### DraggableCards
-https://github.com/EvilEgoist/DiplomaAppComponents/assets/79916148/27342423-a714-4261-b503-fab450e3d1a3
+https://github.com/EvilEgoist/DiplomaAppComponents/assets/79916148/7d64c7c4-688a-4f3f-970c-ffbe633b8218
 
 ### LoginScreen
+![login-screen](https://github.com/EvilEgoist/DiplomaAppComponents/assets/79916148/a9164411-293e-4477-9415-e6e9cda80bcf)
 
-![login-screen](https://github.com/EvilEgoist/DiplomaAppComponents/assets/79916148/5fe3691a-ad41-4de4-b6ee-7016c7cee255)
 
 
