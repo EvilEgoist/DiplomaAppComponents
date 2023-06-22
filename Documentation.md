@@ -19,6 +19,14 @@ android.nonTransitiveRClass=true
 API_KEY="ваш ключ доступа Unsplash"
 ```
 
+## Начало использования
+- Добавить в корень проекта файл gradle.properties с кодом, указанным в документации.
+- (Опционально) Необходимо зарегистрироваться на Unsplash API, зарегистрировать ваше приложение и скопировать его access-key.
+- Определить источник данных, что будет показывать ваше приложение.
+- Сделать базовый интерфейс для минимального отображения ваших данных, например изображение и текст.
+- Используя документацию и приведенную демонстрационную функциональность разработать классы для работы с данными и сервером.
+- Поверх этих классов сделать более сложный интерфейс, используя библиотечные функции из Jetpack Compose или мои дизайн-компоненты.
+
 # Разработанные компоненты
 
 ## Сборка
@@ -120,7 +128,7 @@ dependencyResolutionManagement {
 - Получается конвертер для ошибочного тела ответа.
 - Возвращается экземпляр `ResponseAdapter`, который является адаптером `CallAdapter` и используется для обработки ответов.
 
-##NetworkResponse
+## NetworkResponse
 Все сетевые компоненты оперируют этим классом, который является плоским герметизированным классом, предназначенным для представления различных типов ответов от сервера при выполнении сетевых вызовов.
 
 ### Варианты классов
@@ -356,3 +364,101 @@ fun NavigationHost(
 - Возвращает объект типа `UnsplashRemoteKeysDb`, представляющий ключи удаленных данных для последнего элемента в списке данных.
 
 
+# Виджет главного экрана
+Для виджета используется библиотека Glance
+
+`AppWidget` является объектом, расширяющим класс `GlanceAppWidget`. Он отвечает за предоставление виджета на главном экране устройства.
+
+### Методы
+
+#### `provideGlance(context: Context, id: GlanceId)`
+
+- Асинхронный метод, предоставляющий содержимое виджета.
+- Принимает параметры `context` типа `Context` (контекст приложения) и `id` типа `GlanceId` (идентификатор виджета).
+- Использует функцию `provideContent` для предоставления содержимого виджета.
+
+#### `Content()`
+
+- Композируемая функция, отображающая содержимое виджета.
+- Возвращает `Row`, содержащий `Image` и `Button`.
+- Использует различные модификаторы для задания внешнего вида элементов.
+- Загружает изображение с помощью `ImageProvider`.
+- Задает текст и обработчик нажатия для кнопки.
+
+### Класс AppWidgetReceiver
+
+`AppWidgetReceiver` является классом, реализующим `GlanceAppWidgetReceiver`. Он отвечает за прием событий и обработку действий, связанных с виджетом.
+
+### Поля
+
+- `glanceAppWidget`: Поле типа `GlanceAppWidget`, представляющее экземпляр `AppWidget` в качестве реализации виджета.
+
+### Установка виджета
+ После подключения библиотеки в папке xml в res создаем файл `widget_info.xml`
+
+```
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:description="@string/app_name"
+    android:minWidth="110dp"
+    android:minHeight="30dp"
+    android:resizeMode="horizontal|vertical"
+    android:widgetCategory="home_screen"
+    />
+```
+
+и в `Manifest` объявляем 
+```
+<receiver android:name=".imageGallery.presentation.widget.AppWidgetReceiver" android:exported="true">
+    <intent-filter>
+        <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+    </intent-filter>
+    <meta-data
+        android:name="android.appwidget.provider"
+        android:resource="@xml/widget_info" />
+</receiver>
+```
+# Дизайн-компоненты
+
+## AnimatedBottomNav
+
+Для обозначения экрана в нижней панели навигации используется модель
+
+```
+sealed class ScreenModelBottomNav(
+    val destination: NavigationDestination,
+    val title: String,
+    val activeIcon: ImageVector,
+    val inactiveIcon: ImageVector
+) {
+    object ImageGallery: ScreenModelBottomNav(NavigationDestination.ImageGallery, "Gallery", Icons.Filled.Collections, Icons.Outlined.Collections)
+    object MovieScreen: ScreenModelBottomNav(NavigationDestination.MovieScreen, "Movies", Icons.Filled.Movie, Icons.Outlined.Movie)
+}
+```
+Где 
+- `destination` это назначение в графе навигации см. навигацию в проекте.
+- `title` - это заголовок, отображаемый, когда экран активен
+- `activeIcon` и `inactiveIcon` - это как правило две одинаковые иконки, но с разным цветом для отображения активности экрана
+
+`AnimatedBottomNav` является композируемой функцией, отображающей анимированную нижнюю навигацию. Она принимает следующие параметры:
+
+- `modifier`: Модификатор для настройки внешнего вида нижней навигации.
+- `navigationManager`: Менеджер навигации, отвечающий за переходы между экранами.
+- `screens`: Список моделей экранов нижней навигации.
+
+### Функция BottomNavItem
+
+`BottomNavItem` является приватной композируемой функцией, отображающей элемент нижней навигации. Она принимает следующие параметры:
+
+- `modifier`: Модификатор для настройки внешнего вида элемента.
+- `screen`: Модель экрана нижней навигации.
+- `isSelected`: Флаг, указывающий, является ли элемент выбранным.
+
+### Функция FlipIcon
+
+`FlipIcon` является композируемой функцией, отображающей иконку, которая может переворачиваться при активации. Она принимает следующие параметры:
+
+- `modifier`: Модификатор для настройки внешнего вида иконки.
+- `isActive`: Флаг, указывающий, является ли иконка активной.
+- `activeIcon`: Вектор изображения для активной иконки.
+- `inactiveIcon`: Вектор изображения для неактивной иконки.
+- `contentDescription`: Описание содержимого иконки.
