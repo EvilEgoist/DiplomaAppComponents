@@ -40,6 +40,9 @@ https://github.com/EvilEgoist/DiplomaAppComponents/assets/79916148/b26937d2-16f0
 - `AnimatedAsyncImage`
 - Intent для открытия браузера.
 
+## Экран афиши фильмов
+https://github.com/EvilEgoist/DiplomaAppComponents/assets/79916148/ee31977f-cdbe-493f-b73e-3d4ad1c4c28f
+
 ## Другие UI-компоненты
 
 ### FluidButton
